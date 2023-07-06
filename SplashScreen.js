@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
-import { View, Text, Image, StyleSheet } from 'react-native';
+import { View, Text, Image } from 'react-native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import { styles } from './Styles.js';
 
 const Tab = createBottomTabNavigator();
 
@@ -20,19 +21,5 @@ const SplashScreen = ({navigation}) => {
     </View>
 );
 };
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  text: {
-    fontFamily: 'Cochin',
-    fontSize: 50,
-  },
-});
-
-
 
 export default SplashScreen;

@@ -1,5 +1,6 @@
 import React, { useEffect } from 'react';
-import { View, Text, Image, StyleSheet } from 'react-native';
+import { View, Text, Image} from 'react-native';
+import { styles } from './Styles.js';
 
 const MainScreen = () => {
     return (
@@ -8,17 +9,5 @@ const MainScreen = () => {
       </View>
     );
   };
-  
-  const styles = StyleSheet.create({
-    container: {
-      flex: 1,
-      justifyContent: 'center',
-      alignItems: 'center',
-    },
-    text: {
-      fontFamily: 'Cochin',
-      fontSize: 50,
-    },
-  });
   
   export default MainScreen;

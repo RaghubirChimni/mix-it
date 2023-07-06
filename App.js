@@ -1,5 +1,4 @@
 import React from 'react';
-import {StyleSheet, Text, View} from 'react-native';
 import SplashScreen from './SplashScreen';
 import MainScreen from './MainScreen';
 import DummyScreen from './DummyScreen';
@@ -20,12 +19,6 @@ const App = () => {
       </Stack.Navigator>
     </NavigationContainer>
 )};
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-  },
-});
 
 function TabStackScreen() {
   return (
