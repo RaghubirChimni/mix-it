@@ -1,20 +1,39 @@
-import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
+import React from 'react';
+import {StyleSheet, Text, View} from 'react-native';
+import SplashScreen from './SplashScreen';
+import MainScreen from './MainScreen';
+import DummyScreen from './DummyScreen';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import { NavigationContainer } from '@react-navigation/native';
+import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 
-export default function App() {
-  return (
-    <View style={styles.container}>
-      <Text>Open up App.js to start working on your app!</Text>
-      <StatusBar style="auto" />
-    </View>
-  );
-}
+
+const Stack = createNativeStackNavigator();
+const Tab = createBottomTabNavigator();
+
+const App = () => {
+  return(
+    <NavigationContainer>
+      <Stack.Navigator initialRouteName='SplashScreen'>
+        <Stack.Screen name = 'SplashScreen' component={SplashScreen} options={{headerShown: false}}/>
+        <Stack.Screen name = 'MainStack' component={TabStackScreen} options={{headerShown: false, animation: 'none'}}/>
+      </Stack.Navigator>
+    </NavigationContainer>
+)};
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
   },
 });
+
+function TabStackScreen() {
+  return (
+    <Tab.Navigator initialRouteName = 'Main'>
+      <Tab.Screen name="Main" component={MainScreen} options={{headerShown: false, animation: 'none'}}/>
+      <Tab.Screen name="Dummy" component={DummyScreen} options={{headerShown: false,}}/>
+    </Tab.Navigator>
+  );
+}
+
+export default App;
