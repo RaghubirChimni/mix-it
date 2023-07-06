@@ -8,7 +8,7 @@ const Tab = createBottomTabNavigator();
 const SplashScreen = ({navigation}) => {
   useEffect(() => {
     const timer = setTimeout(() => {
-      // navigate to the next screen after a timeout of 2 seconds of the splash screen
+      // navigate to the next screen after a timeout of 4 seconds of the splash screen
       navigation.replace('MainStack');
     }, 4000);
 
