@@ -6,6 +6,7 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import FavoritesScreen from './FavoritesScreen';
 import SettingsScreen from './SettingsScreen';
+import SearchScreen from './SearchScreen';
 
 
 const Stack = createNativeStackNavigator();
@@ -24,8 +25,9 @@ const App = () => {
 
 function TabStackScreen() {
   return (
-    <Tab.Navigator initialRouteName = 'Main'>
+    <Tab.Navigator initialRouteName = 'Home'>
       <Tab.Screen name="Home" component={HomeScreen} options={{headerShown: false, animation: 'none'}}/>
+      <Tab.Screen name="Search" component={SearchScreen} options={{headerShown: false,}}/>
       <Tab.Screen name="Favorites" component={FavoritesScreen} options={{headerShown: false,}}/>
     </Tab.Navigator>
   );
