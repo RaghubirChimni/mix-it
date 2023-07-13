@@ -3,8 +3,6 @@ import { View, Text, Image } from 'react-native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { styles } from './Styles.js';
 
-const Tab = createBottomTabNavigator();
-
 const SplashScreen = ({navigation}) => {
   useEffect(() => {
     const timer = setTimeout(() => {
