@@ -15,7 +15,7 @@ const SplashScreen = ({navigation}) => {
 
   return (
     <View style={styles.container}>
-      <Text style={styles.text}>Welcome.</Text>
+      <Text style={styles.text}>Insert 'mix it' logo here.</Text>
     </View>
 );
 };
