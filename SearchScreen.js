@@ -76,6 +76,7 @@ class SearchScreen extends Component {
 
       // if not empty, then make an API request
       if(this.state.query != ""){
+
         // check the filter settings and make the request
         let base = "https://www.thecocktaildb.com/api/json/v1/1/"
         let end = ""
@@ -102,6 +103,10 @@ class SearchScreen extends Component {
         }
         console.log(base+end)
 
+        // clear the previous results before new API call
+        this.setState({ anyResults: false });
+        this.setState({ resultsToDisplay: [] });
+
         // do the API endpoint call, sort data & put in cards in a list view
         if(end1 == ""){
           // get all possible results
@@ -120,6 +125,7 @@ class SearchScreen extends Component {
   }
 
   callAPI = async (endpoint, numToReturn) => {
+
     console.log(endpoint)
     await fetch(endpoint)
     .then((response) => response.json())
@@ -202,7 +208,7 @@ class SearchScreen extends Component {
     else{
       console.log("no results")
       return(
-        <Text>Search Something New!</Text>
+        <Text>Drink Something New!</Text>
       );
     }
     
