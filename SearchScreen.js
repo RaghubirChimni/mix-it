@@ -1,5 +1,5 @@
 import React, { useEffect, useState, Component } from 'react';
-import { View, Pressable, Text, TouchableOpacity} from 'react-native';
+import { View, Pressable, Text, TouchableOpacity, FlatList, StyleSheet} from 'react-native';
 import { styles } from './Styles.js';
 import { SearchBar, Card } from 'react-native-elements';
 import Icon from 'react-native-vector-icons/FontAwesome';
@@ -12,7 +12,9 @@ class SearchScreen extends Component {
       query: "",
       drink: false, 
       ingredient: false,
-      favorites: [], 
+      favorites: [],
+      anyResults: false, 
+      resultsToDisplay: []
     }
     this.timeoutId = null;
   }
@@ -124,14 +126,37 @@ class SearchScreen extends Component {
     .then((data) => {
       console.log('fetch done with no error');
 
-      // add results to card and put on page
-      if (numToReturn == 0){
-        for (let i = 0; i < data["drinks"].length; i++){
-          s = data["drinks"][i]
-          console.log(s)
-          break;
-        }
+      let n = 0
+      if(data["drinks"] == null)
+        this.setState({anyResults: false})
+      else{
+        this.setState({anyResults: true})
+
+        if (numToReturn == 0)
+          n = data["drinks"].length;
+        else
+          n = min(numToReturn, data["drinks"].length)
+      
       }
+
+
+      for (let i = 0; i < n; i++){
+        s = data["drinks"][i] // get important fields from each result and put in state
+        console.log(Object.keys(s))
+        drinkResult = {
+          "idDrink": s["idDrink"], 
+          "strDrink": s["strDrink"], 
+          "strAlcoholic": s["strAlcoholic"], 
+          "strInstructions": s["strInstructions"],
+          "strDrinkThumb": s["strDrinkThumb"]
+        } 
+        console.log(drinkResult)
+        this.setState((prevState) => ({
+          resultsToDisplay: [...prevState.resultsToDisplay, drinkResult]
+        }));
+        // break;
+      }
+    
     })
     .catch(error => {
       console.log(error)
@@ -156,6 +181,33 @@ class SearchScreen extends Component {
     navigation.navigate("Search Settings");
   }
 
+  Item = ({item}) => (
+    <View style={style.item}>
+      <Text style={style.title}>{item.strDrink}</Text>
+    </View>
+  );
+
+  results = () => {
+    if (this.state.anyResults == true){
+      console.log("returning flatlist")
+      console.log(this.state.resultsToDisplay)
+      return(
+        <FlatList
+          data={this.state.resultsToDisplay}
+          renderItem={this.Item}
+          keyExtractor={item => item.idDrink}
+        />
+      );
+    }
+    else{
+      console.log("no results")
+      return(
+        <Text>Search Something New!</Text>
+      );
+    }
+    
+  }
+
     render(){
       return (
         <View style={{ marginTop: 50 }}>
@@ -171,9 +223,27 @@ class SearchScreen extends Component {
               onPress={this.handleButtonPress}
             />
           </View>
+          {this.results()}
+          {/* <this.results/> */}
         </View>
       );
       }
   };
+
+
+  const style = StyleSheet.create({
+    container: {
+      flex: 1,
+    },
+    item: {
+      backgroundColor: '#f9c2ff',
+      padding: 20,
+      marginVertical: 8,
+      marginHorizontal: 16,
+    },
+    title: {
+      fontSize: 32,
+    },
+  });
   
   export default SearchScreen;
