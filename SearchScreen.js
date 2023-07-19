@@ -145,10 +145,10 @@ class SearchScreen extends Component {
       
       }
 
-
       for (let i = 0; i < n; i++){
         s = data["drinks"][i] // get important fields from each result and put in state
-        console.log(Object.keys(s))
+        // console.log(Object.keys(s))
+
         drinkResult = {
           "idDrink": s["idDrink"], 
           "strDrink": s["strDrink"], 
@@ -156,6 +156,24 @@ class SearchScreen extends Component {
           "strInstructions": s["strInstructions"],
           "strDrinkThumb": s["strDrinkThumb"] + "/preview"
         } 
+        console.log("created drinkResult")
+        // add appropriate num of ingredients and measurements
+
+        for(let j = 1; j <= 15; j++){
+          let ing = "strIngredient" + j.toString()
+          let measure = "strMeasure"+ j.toString()
+          if(s[ing] == null){
+            print("no ingredient"+toString(i))
+            break;
+          }
+          else{
+            drinkResult[ing] = s[ing];
+            drinkResult[measure] = s[measure];
+            print("added drink")
+            drinkResult["numIngredients"] = j
+          }
+        }
+
         console.log(drinkResult)
         this.setState((prevState) => ({
           resultsToDisplay: [...prevState.resultsToDisplay, drinkResult]
