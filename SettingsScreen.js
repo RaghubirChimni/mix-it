@@ -3,6 +3,7 @@ import { View, Text, Image} from 'react-native';
 import { styles } from './Styles.js';
 import { CheckBox } from 'react-native-elements';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { receiveIngredientSetting, receiveDrinkSetting } from './Utils.js';
 
 class SettingsScreen extends Component {
 
@@ -12,43 +13,14 @@ class SettingsScreen extends Component {
   }
 
   async componentDidMount(){
-    await this.receiveDrinkSetting();
-    await this.receiveIngredientSetting();
+    receiveDrinkSetting().then((drinkSetting) => {
+      this.setState({ drink: drinkSetting });
+    });
+    receiveIngredientSetting().then((ingredientSetting) => {
+      this.setState({ ingredient: ingredientSetting });
+    });
   }
 
-  receiveDrinkSetting = async () => {
-    try{
-      const drinkString = await AsyncStorage.getItem('drink');
-      if(drinkString != null){
-        const drinkStr  = JSON.parse(drinkString);
-        this.setState({drink: drinkStr})
-        console.log("set drink as " + drinkStr)
-      }
-      else{
-        console.log("no drink")
-      }
-    }
-    catch(e){
-      console.log('failed retrieval of drink setting')
-    }
-  }
-
-  receiveIngredientSetting = async () => {
-    try{
-      const ingredientString = await AsyncStorage.getItem('ingredient');
-      if(ingredientString != null){
-        const ingredientStr  = JSON.parse(ingredientString);
-        this.setState({ingredient: ingredientStr})
-        console.log("set ingredient as " + ingredientStr)
-      }
-      else{
-        console.log("no ingredient")
-      }
-    }
-    catch(e){
-      console.log('failed retrieval of ingredient setting')
-    }
-  }
 
   handleDrinkChange = async () => {
     // save in storage

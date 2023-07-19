@@ -4,6 +4,8 @@ import { styles } from './Styles.js';
 import { SearchBar, Card } from 'react-native-elements';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { receiveIngredientSetting, receiveDrinkSetting, receiveFavorites } from './Utils.js';
+
 
 class SearchScreen extends Component {
   constructor(props){
@@ -34,40 +36,6 @@ class SearchScreen extends Component {
     clearTimeout(this.timeoutId);
   }
 
-  receiveDrinkSetting = async () => {
-    try{
-      const drinkString = await AsyncStorage.getItem('drink');
-      if(drinkString != null){
-        const drinkStr  = JSON.parse(drinkString);
-        this.setState({drink: drinkStr})
-        console.log("set drink as " + drinkStr)
-      }
-      else{
-        console.log("no drink")
-      }
-    }
-    catch(e){
-      console.log('failed retrieval of drink setting')
-      console.log(e)
-    }
-  }
-
-  receiveIngredientSetting = async () => {
-    try{
-      const ingredientString = await AsyncStorage.getItem('ingredient');
-      if(ingredientString != null){
-        const ingredientStr  = JSON.parse(ingredientString);
-        this.setState({ingredient: ingredientStr})
-        console.log("set ingredient as " + ingredientStr)
-      }
-      else{
-        console.log("no ingredient")
-      }
-    }
-    catch(e){
-      console.log('failed retrieval of ingredient setting')
-    }
-  }
 
   // need to only search after whole query is written
   async performSearch(){
@@ -82,9 +50,9 @@ class SearchScreen extends Component {
         let end = ""
         let end1 = ""
         
-        await this.receiveDrinkSetting();
-        await this.receiveIngredientSetting();
-        
+        await this.setState({drink: receiveDrinkSetting()});
+        await this.setState({ingredient:receiveIngredientSetting()});
+        await this.setState({favorites: receiveFavorites()});
 
         if(this.state.query.length == 1)
           end = "search.php?f=" + this.state.query
@@ -191,7 +159,7 @@ class SearchScreen extends Component {
     this.setState({query: query});
   };
 
-  IconButton = ({onPress}) => {
+  SettingsButton = ({onPress}) => {
     return(
       <TouchableOpacity onPress={onPress}>
         <Icon name="cog" size={35} color="black" />
@@ -199,10 +167,42 @@ class SearchScreen extends Component {
     );
   };
 
-  handleButtonPress = () => {
+  handleSettingsButton = () => {
     console.log("pressed")
     const {navigation} = this.props
     navigation.navigate("Search Settings");
+  }
+
+  handleFavoritesButton = async (idDrink) =>{
+    console.log("favorites icon pressed")
+    console.log(idDrink)
+
+    // remove from favorites
+    if(idDrink in this.state.favorites){
+      console.log('removed from favorites')
+      let filteredArray = this.state.favorites.filter(item => item !== idDrink)
+      await this.setState({favorites: filteredArray});
+      console.log(this.state.favorites)
+    }
+    else{ // add to favorites
+      console.log('added to favorites')
+      await this.setState((prevState) => ({
+        favorites: [...prevState.favorites, idDrink]
+      }));
+      console.log(this.state.favorites)
+
+    }
+
+    // update in AsyncStorage
+    try{
+      const favoritesString = JSON.stringify(this.state.favorites);
+      await AsyncStorage.setItem('favorites', favoritesString);
+  
+      console.log('favories setting saved as: ' + favoritesString)
+    } catch (e) {
+      console.log('error saving favorites')
+    }
+
   }
 
   Item = ({item}) => (
@@ -215,7 +215,18 @@ class SearchScreen extends Component {
       }>
         <Text>{item.strDrink}</Text>
         <Image style={{width: 50,height: 50,}} source={{uri: item.strDrinkThumb}} />
-        </TouchableOpacity>
+        <View>
+          <TouchableOpacity onPress={async () => await this.handleFavoritesButton(item.idDrink)}>
+          <Icon name="star" size={35} color={
+            () => {
+              item.idDrink in this.state.favorites ? "gold" : "gray"
+            }
+          } />
+          </TouchableOpacity>
+        </View>
+      
+      </TouchableOpacity>
+
     </View>
   );
 
@@ -251,8 +262,8 @@ class SearchScreen extends Component {
               onChangeText={this.handleSearch}
               value={this.state.query}
             />
-            <this.IconButton 
-              onPress={this.handleButtonPress}
+            <this.SettingsButton 
+              onPress={this.handleSettingsButton}
             />
           </View>
           {this.results()}

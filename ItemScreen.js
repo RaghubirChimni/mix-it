@@ -1,6 +1,6 @@
 import React, { useEffect, useState, Component, useContext } from 'react';
-import { View, Pressable, Text, TouchableOpacity} from 'react-native';
-import { styles } from './Styles.js';
+import { View, Pressable, Text, Image, StyleSheet} from 'react-native';
+// import { styles } from './Styles.js';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { Card } from 'react-native-elements'
 
@@ -12,11 +12,26 @@ class ItemScreen extends Component {
     render(){
     const { itemToDisplay } = this.props.route.params;
       return (
-        <View style={{ marginTop: 50 }}>
-          <Text>{itemToDisplay["strDrink"]}</Text>
+        <View>
+        <View style={styles.container}>
+          <Image style= {{width: 300, height: 300}} source={{uri: itemToDisplay.strDrinkThumb}} />
+        </View>
+            <Text>{itemToDisplay["strDrink"]}</Text>
         </View>
       );
       }
   };
   
   export default ItemScreen;
+
+
+  const styles = StyleSheet.create({
+    container: {
+      flex: 1,
+      alignItems: 'center', // Center horizontally
+    },
+    image: {
+      width: 300,
+      height: 300,
+    },
+  });
