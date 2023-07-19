@@ -7,6 +7,7 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import FavoritesScreen from './FavoritesScreen';
 import SettingsScreen from './SettingsScreen';
 import SearchScreen from './SearchScreen';
+import ItemScreen from './ItemScreen';
 
 
 const Stack = createNativeStackNavigator();
@@ -19,6 +20,7 @@ const App = () => {
         <Stack.Screen name = 'SplashScreen' component={SplashScreen} options={{headerShown: false}}/>
         <Stack.Screen name = 'MainStack' component={TabStackScreen} options={{headerShown: false, animation: 'none'}}/>
         <Stack.Screen name = "Search Settings" component={SettingsScreen} />
+        <Stack.Screen name = "Item Screen" component={ItemScreen} />
       </Stack.Navigator>
     </NavigationContainer>
 )};

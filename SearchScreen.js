@@ -1,5 +1,5 @@
 import React, { useEffect, useState, Component } from 'react';
-import { View, Pressable, Text, TouchableOpacity, FlatList, StyleSheet} from 'react-native';
+import { View, Pressable, Text, TouchableOpacity, FlatList, StyleSheet, Image} from 'react-native';
 import { styles } from './Styles.js';
 import { SearchBar, Card } from 'react-native-elements';
 import Icon from 'react-native-vector-icons/FontAwesome';
@@ -14,7 +14,7 @@ class SearchScreen extends Component {
       ingredient: false,
       favorites: [],
       anyResults: false, 
-      resultsToDisplay: []
+      resultsToDisplay: [],
     }
     this.timeoutId = null;
   }
@@ -154,7 +154,7 @@ class SearchScreen extends Component {
           "strDrink": s["strDrink"], 
           "strAlcoholic": s["strAlcoholic"], 
           "strInstructions": s["strInstructions"],
-          "strDrinkThumb": s["strDrinkThumb"]
+          "strDrinkThumb": s["strDrinkThumb"] + "/preview"
         } 
         console.log(drinkResult)
         this.setState((prevState) => ({
@@ -189,7 +189,15 @@ class SearchScreen extends Component {
 
   Item = ({item}) => (
     <View style={style.item}>
-      <Text style={style.title}>{item.strDrink}</Text>
+      <TouchableOpacity style={style.title} onPress={
+        () => {
+          const {navigation} = this.props
+          navigation.navigate("Item Screen", {itemToDisplay: item});
+        }
+      }>
+        <Text>{item.strDrink}</Text>
+        <Image style={{width: 50,height: 50,}} source={{uri: item.strDrinkThumb}} />
+        </TouchableOpacity>
     </View>
   );
 
@@ -242,6 +250,7 @@ class SearchScreen extends Component {
       flex: 1,
     },
     item: {
+      flexDirection: 'wrap',
       backgroundColor: '#f9c2ff',
       padding: 20,
       marginVertical: 8,
