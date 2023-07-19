@@ -4,7 +4,7 @@ import { styles } from './Styles.js';
 import { SearchBar, Card } from 'react-native-elements';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { receiveIngredientSetting, receiveDrinkSetting, receiveFavorites } from './Utils.js';
+import { receiveIngredientSetting, receiveDrinkSetting, receiveFavorites, handleFavoritesButton } from './Utils.js';
 
 
 class SearchScreen extends Component {
@@ -245,37 +245,6 @@ async componenetDidMount(){
     navigation.navigate("Search Settings");
   }
 
-  handleFavoritesButton = async (idDrink) =>{
-    console.log("favorites icon pressed")
-    console.log(idDrink)
-
-    // remove from favorites
-    if(this.state.favorites.includes(idDrink)){
-      console.log('removed from favorites')
-      let filteredArray = this.state.favorites.filter(item => item !== idDrink)
-      await this.setState({favorites: filteredArray});
-      console.log(this.state.favorites)
-    }
-    else{ // add to favorites
-      console.log('added to favorites')
-      await this.setState((prevState) => ({
-        favorites: [...prevState.favorites, idDrink]
-      }));
-      console.log(this.state.favorites)
-
-    }
-
-    // update in AsyncStorage
-    try{
-      const favoritesString = JSON.stringify(this.state.favorites);
-      await AsyncStorage.setItem('favorites', favoritesString);
-  
-      console.log('favories setting saved as: ' + favoritesString)
-    } catch (e) {
-      console.log('error saving favorites')
-    }
-
-  }
 
   Item = ({item}) => (
     <View style={style.item}>
@@ -288,7 +257,7 @@ async componenetDidMount(){
         <Text>{item.strDrink}</Text>
         <Image style={{width: 50,height: 50,}} source={{uri: item.strDrinkThumb}} />
         <View>
-          <TouchableOpacity onPress={async () => await this.handleFavoritesButton(item.idDrink)}>
+          <TouchableOpacity onPress={async () => this.setState({favorites: await handleFavoritesButton(item.idDrink)})}>
           <Icon name="star" size={35} color={ this.state.favorites.includes(item.idDrink) ? "gold" : "gray"} />
           </TouchableOpacity>
         </View>
@@ -348,7 +317,7 @@ async componenetDidMount(){
     },
     item: {
       flexDirection: 'wrap',
-      backgroundColor: '#f9c2ff',
+      backgroundColor: '#ffffff',
       padding: 20,
       marginVertical: 8,
       marginHorizontal: 16,

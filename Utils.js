@@ -43,7 +43,7 @@ export const receiveDrinkSetting = async () => {
   }
 
 
-export const  receiveFavorites = async () => {
+export const receiveFavorites = async () => {
     try{
       const f = await AsyncStorage.getItem('favorites');
       if(f != null){
@@ -61,4 +61,28 @@ export const  receiveFavorites = async () => {
       console.log('failed retrieval of drink setting')
       console.log(e)
     }
+  }
+
+export const handleFavoritesButton = async (idDrink) =>{
+    console.log("favorites icon pressed")
+    console.log(idDrink)
+
+    let favorites = await receiveFavorites();
+
+    // remove from favorites
+    if(favorites.includes(idDrink)){
+      console.log('removed from favorites')
+      let filteredArray = favorites.filter(item => item !== idDrink)
+      console.log(filteredArray)
+      await AsyncStorage.setItem('favorites', JSON.stringify(filteredArray));
+
+    }
+    else{ // add to favorites
+      console.log('added to favorites')
+      favorites.push(idDrink);
+      await AsyncStorage.setItem('favorites', JSON.stringify(favorites));
+    }
+
+    return receiveFavorites()
+
   }
