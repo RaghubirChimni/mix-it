@@ -57,45 +57,112 @@ async componenetDidMount(){
         if(this.state.query.length == 1)
           end = "search.php?f=" + this.state.query
         else{
+          // clear the previous results before new API call
+          this.setState({ anyResults: false });
+          this.setState({ resultsToDisplay: [] });
+
           // if searching by ingredient, then end = "search.php?i=" + query
           // if searching by cocktail name, then end = "search.php?s=" + query
           // if both then combine search results
-          if (this.state.ingredient && !this.state.drink)
+          if (this.state.ingredient && !this.state.drink){
             end = "filter.php?i=" + this.state.query;
-          else if (this.state.drink && !this.state.ingredient)
+            await this.callAPIIngredients(base+end, 0);
+          }
+          else if (this.state.drink && !this.state.ingredient){
             end = "search.php?s=" + this.state.query;
+            await this.callAPIDrinks(base+end, 0);
+          }
           else{
             end = "search.php?s=" + this.state.query;
+            await this.callAPIDrinks(base+end, 3);
+
             end1 = "filter.php?i=" + this.state.query;
+            await this.callAPIIngredients(base+end1, 3);
+
           }
         }
-        console.log(base+end)
-
-        // need to call API again for ingredient only searches, with drinkID
-
-
-        // clear the previous results before new API call
-        this.setState({ anyResults: false });
-        this.setState({ resultsToDisplay: [] });
-
-        // do the API endpoint call, sort data & put in cards in a list view
-        if(end1 == ""){
-          // get all possible results
-          await this.callAPI(base+end, 0);
-          
-        }
-        else{
-          // do both calls, get 3 results
-          await this.callAPI(base+end, 3);
-          await this.callAPI(base+end1, 3);
-        }
       }
-      
 
     }, 1000); // Adjust the timeout duration as needed
   }
 
-  callAPI = async (endpoint, numToReturn) => {
+  callAPIIngredients = async (endpoint, numToReturn) => {
+    console.log("callAPIIngredients")
+    console.log(endpoint)
+    await fetch(endpoint)
+    .then((response) => response.json())
+    .then((data) => {
+      let origQuery = data;
+      console.log('fetch done with no error');
+      // console.log(data)
+
+      let n = 0
+      if(data["drinks"] == null)
+        this.setState({anyResults: false})
+      else{
+        console.log('results')
+        this.setState({anyResults: true})
+
+        if (numToReturn == 0)
+          n = Math.min(data["drinks"].length, 10);
+        else
+          n = Math.min(numToReturn, data["drinks"].length)
+
+        console.log(n.toString())
+      
+      }
+
+      for (let i = 0; i < n; i++){
+        let drinkID = origQuery["drinks"][i]['idDrink'] // get important fields from each result and put in state
+        console.log(drinkID)
+        fetch("https://www.thecocktaildb.com/api/json/v1/1/lookup.php?i=" + drinkID)
+        .then((response) => response.json())
+        .then((data) => {
+          s =  data["drinks"][0];
+          drinkResult = {
+            "idDrink": s["idDrink"], 
+            "strDrink": s["strDrink"], 
+            "strAlcoholic": s["strAlcoholic"], 
+            "strInstructions": s["strInstructions"],
+            "strDrinkThumb": s["strDrinkThumb"] + "/preview"
+          } 
+          console.log("created drinkResult")
+          // add appropriate num of ingredients and measurements
+  
+          for(let j = 1; j <= 15; j++){
+            let ing = "strIngredient" + j.toString()
+            let measure = "strMeasure"+ j.toString()
+            if(s[ing] == null){
+              print("no ingredient"+toString(i))
+              break;
+            }
+            else{
+              drinkResult[ing] = s[ing];
+              drinkResult[measure] = s[measure];
+              print("added drink")
+              drinkResult["numIngredients"] = j
+            }
+          }
+  
+          console.log(drinkResult)
+          this.setState((prevState) => ({
+            resultsToDisplay: [...prevState.resultsToDisplay, drinkResult]
+          }));
+        }).catch(error => {
+          console.log(error)
+        });
+        
+
+        // break;
+      }
+    
+    })
+    .catch(error => {
+      console.log(error)
+    });
+  };
+
+  callAPIDrinks = async (endpoint, numToReturn) => {
 
     console.log(endpoint)
     await fetch(endpoint)
