@@ -250,7 +250,7 @@ async componenetDidMount(){
     console.log(idDrink)
 
     // remove from favorites
-    if(idDrink in this.state.favorites){
+    if(this.state.favorites.includes(idDrink)){
       console.log('removed from favorites')
       let filteredArray = this.state.favorites.filter(item => item !== idDrink)
       await this.setState({favorites: filteredArray});
