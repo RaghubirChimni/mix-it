@@ -289,11 +289,7 @@ async componenetDidMount(){
         <Image style={{width: 50,height: 50,}} source={{uri: item.strDrinkThumb}} />
         <View>
           <TouchableOpacity onPress={async () => await this.handleFavoritesButton(item.idDrink)}>
-          <Icon name="star" size={35} color={
-            () => {
-              item.idDrink in this.state.favorites ? "gold" : "gray"
-            }
-          } />
+          <Icon name="star" size={35} color={ this.state.favorites.includes(item.idDrink) ? "gold" : "gray"} />
           </TouchableOpacity>
         </View>
       
