@@ -23,7 +23,7 @@ export const receiveIngredientSetting = async () => {
 
 export const receiveDrinkSetting = async () => {
     try{
-      const drinkString = await AsyncStorage.getItem('drink');
+      let drinkString = await AsyncStorage.getItem('drink');
       if(drinkString != null){
         const drinkStr  = JSON.parse(drinkString);
         // this.setState({drink: drinkStr})
@@ -36,6 +36,7 @@ export const receiveDrinkSetting = async () => {
       }
     }
     catch(e){
+      console.log(e)
       console.log('failed retrieval of drink setting')
       return false;
     }
@@ -45,7 +46,7 @@ export const receiveDrinkSetting = async () => {
 export const  receiveFavorites = async () => {
     try{
       const f = await AsyncStorage.getItem('favorites');
-      if(drinkString != null){
+      if(f != null){
         const favStr  = JSON.parse(f);
         // this.setState({favorites: favStr})
         console.log("set favorites as " + favStr)

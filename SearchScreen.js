@@ -21,7 +21,7 @@ class SearchScreen extends Component {
     this.timeoutId = null;
   }
 
-  componenetDidMount(){
+async componenetDidMount(){
     this.performSearch();
   }
 
@@ -50,9 +50,9 @@ class SearchScreen extends Component {
         let end = ""
         let end1 = ""
         
-        await this.setState({drink: receiveDrinkSetting()});
-        await this.setState({ingredient:receiveIngredientSetting()});
-        await this.setState({favorites: receiveFavorites()});
+        this.setState({ drink: await receiveDrinkSetting() });
+        this.setState({ ingredient: await receiveIngredientSetting() });
+        this.setState({favorites: await receiveFavorites()});
 
         if(this.state.query.length == 1)
           end = "search.php?f=" + this.state.query
@@ -70,6 +70,9 @@ class SearchScreen extends Component {
           }
         }
         console.log(base+end)
+
+        // need to call API again for ingredient only searches, with drinkID
+
 
         // clear the previous results before new API call
         this.setState({ anyResults: false });
@@ -107,15 +110,17 @@ class SearchScreen extends Component {
         this.setState({anyResults: true})
 
         if (numToReturn == 0)
-          n = data["drinks"].length;
+          n = Math.min(data["drinks"].length, 10);
         else
-          n = min(numToReturn, data["drinks"].length)
+          n = Math.min(numToReturn, data["drinks"].length)
+
+        console.log(n.toString())
       
       }
 
       for (let i = 0; i < n; i++){
         s = data["drinks"][i] // get important fields from each result and put in state
-        // console.log(Object.keys(s))
+        console.log(Object.keys(s))
 
         drinkResult = {
           "idDrink": s["idDrink"], 
