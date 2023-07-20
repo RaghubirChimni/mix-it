@@ -19,8 +19,8 @@ class FavoritesScreen extends Component{
   }
 
   async componentDidMount() {
-    this.props.navigation.addListener('focus', this.onScreenFocus);
     await this.updateFavorites();
+    this.props.navigation.addListener('focus', this.onScreenFocus);
   }
 
   componentWillUnmount() {
@@ -33,8 +33,8 @@ class FavoritesScreen extends Component{
     }
   }
 
-  onScreenFocus = async () => {
-    await this.updateFavorites();
+onScreenFocus = async () => {
+  await this.updateFavorites();
   }
 
   updateFavorites = async () => {

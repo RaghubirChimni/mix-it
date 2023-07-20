@@ -15,12 +15,12 @@ class ItemScreen extends Component {
     render(){
     const { itemToDisplay } = this.props.route.params;
       return (
-        <View>
         <View style={styles.container}>
-          <Image style= {{width: 300, height: 300}} source={{uri: itemToDisplay.strDrinkThumb}} />
+        <Image style={styles.image} source={{ uri: itemToDisplay.strDrinkThumb }} />
+        <View style={styles.textContainer}>
+          <Text style={styles.title}>{itemToDisplay.strDrink}</Text>
         </View>
-            <Text>{itemToDisplay["strDrink"]}</Text>
-        </View>
+      </View>
       );
       }
   };
@@ -36,5 +36,15 @@ class ItemScreen extends Component {
     image: {
       width: 300,
       height: 300,
+      marginTop: 10,
+      borderRadius: 10,
+    },
+    textContainer: {
+      marginVertical: 10,
+    },
+    title: {
+      fontSize: 30,
+      fontWeight: 'bold',
+      fontFamily: 'DancingScript-Regular'
     },
   });

@@ -290,8 +290,8 @@ async componenetDidMount(){
 
     render(){
       return (
-        <View style={{ marginTop: 50 }}>
-          <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', marginHorizontal: 20, marginBottom: 50  }}>
+        <View style={{ marginTop: 50, flex:1 }}>
+          <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', marginHorizontal: 20, marginBottom: 50,  }}>
             <SearchBar 
               containerStyle={{ flex: 1, marginRight: 10 }}
               placeholder="Hope you're thirsty!"
