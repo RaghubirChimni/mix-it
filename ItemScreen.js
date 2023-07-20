@@ -4,6 +4,9 @@ import { View, Pressable, Text, Image, StyleSheet} from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { Card } from 'react-native-elements'
 
+// will be used for all of the items when they are clicked on.
+// work on formatting this
+// Image, Title, Alcoholic or not, ingredients + measurements, etc.
 class ItemScreen extends Component {
   constructor(props){
     super(props);

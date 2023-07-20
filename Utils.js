@@ -78,7 +78,7 @@ export const handleFavoritesButton = async (idDrink) =>{
 
     }
     else{ // add to favorites
-      console.log('added to favorites')
+      console.log('added ' + idDrink + ' to favorites')
       favorites.push(idDrink);
       await AsyncStorage.setItem('favorites', JSON.stringify(favorites));
     }
