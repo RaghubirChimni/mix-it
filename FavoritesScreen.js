@@ -136,7 +136,9 @@ onScreenFocus = async () => {
     else{
       console.log("no results")
       return(
-        <Text style={styles.text}>Try Something New!</Text>
+        <View style={{paddingTop: 10}}>
+          <Text style={styles.text}>Try Something New!</Text>
+        </View>
       );
     }
     
