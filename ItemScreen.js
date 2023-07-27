@@ -42,6 +42,7 @@ class ItemScreen extends Component {
           <Image style={styles.image} source={{ uri: itemToDisplay.strDrinkThumb }} />
           <View style={styles.textContainer}>
             <Text style={styles.title}>{itemToDisplay.strDrink}</Text>
+            <Text style={styles.additionalText}>{itemToDisplay.strAlcoholic}</Text>
           </View>
 
           <View style={styles.divider}/>
@@ -86,14 +87,15 @@ class ItemScreen extends Component {
 
     },
     textContainer: {
-      marginVertical: 10,
-      marginBottom: -5
+      marginVertical: 10, 
+      flexDirection: 'row',
+      alignItems: 'baseline', // Add this line to align the heights
+      marginBottom: 4
     },
     title: {
       fontSize: 30,
       fontWeight: 'bold',
       textAlign: 'center',
-      marginBottom: 10,
     },
     instructions: {
       fontSize: 15,
@@ -110,6 +112,10 @@ class ItemScreen extends Component {
       fontWeight: 'bold',
       textAlign: 'left',
       marginBottom: 10,
-
-    }
+    },
+    additionalText: {
+      fontSize: 15,
+      color: "gray",
+      marginLeft: 10,
+    },
   });

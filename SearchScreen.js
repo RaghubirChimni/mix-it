@@ -255,7 +255,11 @@ async componenetDidMount(){
           }
         }>
         <Image style={style.drinkImage} source={{uri: item.strDrinkThumb}} />
-        <Text style={style.title}>{item.strDrink}</Text>
+        <View style ={style.itemInfo}>
+          <Text style={style.title}>{item.strDrink}</Text>
+          <Text style={style.additionalText} numberOfLines={1}>{item.strAlcoholic}</Text>
+        </View>
+
         </TouchableOpacity>
 
         <View style={style.starContainer}>
@@ -338,7 +342,7 @@ async componenetDidMount(){
       borderRadius: 10,
     },
     title: {
-      fontSize: 30,
+      fontSize: 25,
       fontWeight: 'bold',
       flex: 1,
       flexDirection: 'row',
@@ -354,6 +358,17 @@ async componenetDidMount(){
       height: 100,
       marginRight: 10, // Add some space between the image and text
       borderRadius: 20,
+    },
+    itemInfo: {
+      flex: 1,
+      flexDirection: "column", // Align the components vertically
+      marginBottom: 50, 
+    },
+    additionalText: {
+      fontSize: 12,
+      color: "gray",
+      marginTop: -10,
+      marginLeft: 10
     },
   
   });
