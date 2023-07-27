@@ -234,7 +234,7 @@ async componenetDidMount(){
   SettingsButton = ({onPress}) => {
     return(
       <TouchableOpacity onPress={onPress}>
-        <Icon name="cog" size={35} color="black" />
+        <Icon name="cog" size={35} color="darkgray" />
       </TouchableOpacity>
     );
   };
@@ -282,7 +282,7 @@ async componenetDidMount(){
     else{
       console.log("no results")
       return(
-        <Text>Drink Something New!</Text>
+        <Text style={styles.text}>Hope you're thirsty!</Text>
       );
     }
     
@@ -290,11 +290,11 @@ async componenetDidMount(){
 
     render(){
       return (
-        <View style={{ marginTop: 50, flex:1 }}>
+        <View style={{ marginTop: 50, flex:1, alignItems: 'center' }}>
           <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', marginHorizontal: 20, marginBottom: 50,  }}>
             <SearchBar 
               containerStyle={{ flex: 1, marginRight: 10 }}
-              placeholder="Hope you're thirsty!"
+              placeholder="Search"
               lightTheme='default'
               onChangeText={this.handleSearch}
               value={this.state.query}

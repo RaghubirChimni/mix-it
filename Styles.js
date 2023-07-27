@@ -8,6 +8,6 @@ export const styles = StyleSheet.create({
     },
     text: {
       fontFamily: 'Cochin',
-      fontSize: 50,
+      fontSize: 38,
     },
   });
