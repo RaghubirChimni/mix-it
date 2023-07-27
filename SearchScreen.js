@@ -249,21 +249,21 @@ async componenetDidMount(){
   Item = ({item}) => (
     <View style={style.item}>
       <TouchableOpacity style={style.title} onPress={
-        () => {
-          const {navigation} = this.props
-          navigation.navigate("Item Screen", {itemToDisplay: item});
-        }
-      }>
-        <Text>{item.strDrink}</Text>
-        <Image style={{width: 50,height: 50,}} source={{uri: item.strDrinkThumb}} />
-        <View>
+          () => {
+            const {navigation} = this.props
+            navigation.navigate("Item Screen", {itemToDisplay: item});
+          }
+        }>
+        <Image style={style.drinkImage} source={{uri: item.strDrinkThumb}} />
+        <Text style={style.title}>{item.strDrink}</Text>
+        </TouchableOpacity>
+
+        <View style={style.starContainer}>
           <TouchableOpacity onPress={async () => this.setState({favorites: await handleFavoritesButton(item.idDrink)})}>
-          <Icon name="star" size={35} color={ this.state.favorites.includes(item.idDrink) ? "gold" : "gray"} />
+          <Icon name="star" size={25} color={ this.state.favorites.includes(item.idDrink) ? "gold" : "gray"} />
           </TouchableOpacity>
         </View>
       
-      </TouchableOpacity>
-
     </View>
   );
 
@@ -290,20 +290,25 @@ async componenetDidMount(){
 
     render(){
       return (
-        <View style={{ marginTop: 50, flex:1, alignItems: 'center' }}>
-          <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', marginHorizontal: 20, marginBottom: 50,  }}>
+        <View style={style.container}>
+          <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', marginHorizontal: 20, marginBottom: 10,  }}>
             <SearchBar 
-              containerStyle={{ flex: 1, marginRight: 10 }}
+              containerStyle={style.searchBar}
               placeholder="Search"
               lightTheme='default'
               onChangeText={this.handleSearch}
               value={this.state.query}
             />
-            <this.SettingsButton 
-              onPress={this.handleSettingsButton}
-            />
+
+            <View style={{marginTop: 50}}>
+              <this.SettingsButton onPress={this.handleSettingsButton}/>
+            </View>
+
           </View>
-          {this.results()}
+
+          <View>
+            {this.results()}
+          </View>
           {/* <this.results/> */}
         </View>
       );
@@ -314,17 +319,43 @@ async componenetDidMount(){
   const style = StyleSheet.create({
     container: {
       flex: 1,
+      alignItems: 'center' 
+    },
+    searchBar:{
+      flex: 1, 
+      marginRight: 10,  
+      marginTop: 50,  
     },
     item: {
-      flexDirection: 'wrap',
+      flexDirection: 'row', // Align items in a row (horizontally)
+      justifyContent: 'flex-start', // Align items to the left within the item
       backgroundColor: '#ffffff',
       padding: 20,
       marginVertical: 8,
-      marginHorizontal: 16,
+      marginHorizontal: 0,
+      width: '95%', // Set the parent container width to 100% of the screen width
+      alignItems: 'center',
+      borderRadius: 10,
     },
     title: {
-      fontSize: 32,
+      fontSize: 30,
+      fontWeight: 'bold',
+      flex: 1,
+      flexDirection: 'row',
+      marginLeft: 10
     },
+    starContainer: {
+      marginLeft: 'auto',
+      width: 50, 
+      alignItems: 'center',
+    },
+    drinkImage: {
+      width: 100,
+      height: 100,
+      marginRight: 10, // Add some space between the image and text
+      borderRadius: 20,
+    },
+  
   });
   
   export default SearchScreen;

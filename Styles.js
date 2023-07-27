@@ -9,5 +9,6 @@ export const styles = StyleSheet.create({
     text: {
       fontFamily: 'Cochin',
       fontSize: 38,
+      paddingTop: 30
     },
   });
