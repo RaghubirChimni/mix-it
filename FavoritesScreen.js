@@ -121,7 +121,7 @@ onScreenFocus = async () => {
   results = () => {
     if (this.state.favorites.length != 0){
       console.log("returning flatlist")
-      console.log(this.state.resultsToDisplay)
+      // console.log(this.state.resultsToDisplay)
       return(
         <View style={{paddingTop: 20}}>
           <Text style={styles.text}>Favorites.</Text>

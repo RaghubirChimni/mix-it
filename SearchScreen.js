@@ -4,7 +4,7 @@ import { styles } from './Styles.js';
 import { SearchBar, Card } from 'react-native-elements';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { receiveIngredientSetting, receiveDrinkSetting, receiveFavorites, handleFavoritesButton, Item } from './Utils.js';
+import { receiveIngredientSetting, receiveDrinkSetting, receiveFavorites, handleFavoritesButton} from './Utils.js';
 
 
 
@@ -24,18 +24,36 @@ class SearchScreen extends Component {
 
 async componenetDidMount(){
     this.performSearch();
+    this.props.navigation.addListener('focus', this.onScreenFocus);
+    this.updateFavorites(); // Call updateFavorites when the component mounts
   }
 
-  componentDidUpdate(_, prevState){
+ async componentDidUpdate(_, prevState){
     if (prevState.query !== this.state.query) {
       clearTimeout(this.timeoutId);
       this.performSearch();
     }
   }
 
-  componentWillUnmount() {
+async componentWillUnmount() {
+  this.props.navigation.removeListener('focus', this.onScreenFocus);
     clearTimeout(this.timeoutId);
   }
+
+  onScreenFocus = async () => {
+    await this.updateFavorites(); // Call updateFavorites when the screen comes into focus
+  }
+
+  updateFavorites = async () => {
+    try {
+      const favorites = await receiveFavorites();
+      console.log("updated favorites");
+      this.setState({ favorites });
+    } catch (error) {
+      console.log('Error fetching favorites:', error);
+    }
+  };
+
 
 
   // need to only search after whole query is written
@@ -215,7 +233,7 @@ async componenetDidMount(){
           }
         }
 
-        console.log(drinkResult)
+        // console.log(drinkResult)
         this.setState((prevState) => ({
           resultsToDisplay: [...prevState.resultsToDisplay, drinkResult]
         }));
@@ -247,7 +265,7 @@ async componenetDidMount(){
   }
 
 
-  Item = ({item}) => (
+  Item = ({item}) =>  (
     <View style={styles.item}>
       <TouchableOpacity style={styles.itemTitle} onPress={
           () => {
@@ -275,7 +293,7 @@ async componenetDidMount(){
   results = () => {
     if (this.state.anyResults == true){
       console.log("returning flatlist")
-      console.log(this.state.resultsToDisplay)
+      // console.log(this.state.resultsToDisplay)
       return(
         <FlatList
           data={this.state.resultsToDisplay}

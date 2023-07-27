@@ -41,7 +41,8 @@ export const styles = StyleSheet.create({
       fontWeight: 'bold',
       flex: 1,
       flexDirection: 'row',
-      marginLeft: 10
+      marginLeft: 10,
+      marginBottom: 10
     },
     starContainer: {
       marginLeft: 'auto',
@@ -87,6 +88,7 @@ export const styles = StyleSheet.create({
       fontSize: 30,
       fontWeight: 'bold',
       textAlign: 'center',
+      flexShrink: 1
     },
     instructions: {
       fontSize: 15,

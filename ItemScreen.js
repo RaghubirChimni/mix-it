@@ -14,7 +14,6 @@ import { styles } from './Styles.js';
 class ItemScreen extends Component {
   constructor(props){
     super(props);
-
   }
 
   // put custom components for ingredients + measurements
@@ -37,22 +36,36 @@ class ItemScreen extends Component {
         return results;
       }
 
+      drinkTitleSize = () => {
+        if(itemToDisplay.strDrink.length >= 18)
+          return 20
+        else
+          return 30
+      }
+
+      drinkSectionTitleSize = () => {
+        if(itemToDisplay.strDrink.length >= 18)
+          return 15
+        else
+          return 20
+      }
+
       return (
         <View style={styles.itemPageContainer}>
           <ScrollView contentContainerStyle={styles.scrollContainer}>
 
           <Image style={styles.image} source={{ uri: itemToDisplay.strDrinkThumb }} />
           <View style={styles.textContainer}>
-            <Text style={styles.itemPageTitle}>{itemToDisplay.strDrink}</Text>
-            <Text style={styles.itemPageAdditionalText}>{itemToDisplay.strAlcoholic}</Text>
+            <Text style={[styles.itemPageTitle, {fontSize: drinkTitleSize()}]}>{itemToDisplay.strDrink}</Text>
+            <Text style={[styles.itemPageAdditionalText, {fontSize: drinkTitleSize()-10}]}>{itemToDisplay.strAlcoholic}</Text>
           </View>
 
           <View style={styles.divider}/>
-          <Text style={styles.section_title}>Ingredients:</Text>  
+          <Text style={[styles.section_title, {fontSize: drinkTitleSize()-2}]}>Ingredients:</Text>  
               {get_measurements_ingredients()}
 
           <View style={styles.divider}/>
-          <Text style={styles.section_title}>How to Make it:</Text>  
+          <Text style={[styles.section_title, {fontSize: drinkTitleSize()-2}]}>How to Make it:</Text>  
           <Text style={styles.instructions}>{itemToDisplay.strInstructions}</Text>  
          
 
