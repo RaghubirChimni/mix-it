@@ -45,14 +45,12 @@ class ItemScreen extends Component {
           </View>
 
           <View style={styles.divider}/>
-
           <Text style={styles.section_title}>Ingredients:</Text>  
               {get_measurements_ingredients()}
 
          
           <Text></Text>
           <View style={styles.divider}/>
-          <Text></Text>
           <Text style={styles.section_title}>How to Make it:</Text>  
           <Text style={styles.instructions}>{itemToDisplay.strInstructions}</Text>  
          
