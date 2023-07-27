@@ -94,23 +94,27 @@ onScreenFocus = async () => {
 
 
   Item = ({item}) => (
-    <View style={style.item}>
-      <TouchableOpacity style={style.title} onPress={
-        () => {
-          const {navigation} = this.props
-          navigation.navigate("Item Screen", {itemToDisplay: item});
-        }
-      }>
-        <Text>{item.strDrink}</Text>
-        <Image style={{width: 50,height: 50,}} source={{uri: item.strDrinkThumb}} />
-        <View>
+    <View style={styles.item}>
+      <TouchableOpacity style={styles.itemTitle} onPress={
+          () => {
+            const {navigation} = this.props
+            navigation.navigate("Item Screen", {itemToDisplay: item});
+          }
+        }>
+        <Image style={styles.drinkImage} source={{uri: item.strDrinkThumb}} />
+        <View style ={styles.itemInfo}>
+          <Text style={styles.itemTitle}>{item.strDrink}</Text>
+          <Text style={styles.additionalTextItem} numberOfLines={1}>{item.strAlcoholic}</Text>
+        </View>
+
+        </TouchableOpacity>
+
+        <View style={styles.starContainer}>
           <TouchableOpacity onPress={async () => this.setState({favorites: await handleFavoritesButton(item.idDrink)})}>
-          <Icon name="star" size={35} color={ this.state.favorites.includes(item.idDrink) ? "gold" : "gray"} />
+          <Icon name="star" size={25} color={ this.state.favorites.includes(item.idDrink) ? "gold" : "gray"} />
           </TouchableOpacity>
         </View>
       
-      </TouchableOpacity>
-
     </View>
   );
 
@@ -119,17 +123,20 @@ onScreenFocus = async () => {
       console.log("returning flatlist")
       console.log(this.state.resultsToDisplay)
       return(
-        <FlatList
-          data={this.state.resultsToDisplay}
-          renderItem={this.Item}
-          keyExtractor={item => item.idDrink}
-        />
+        <View style={{paddingTop: 10}}>
+          <Text style={styles.text}>Favorites.</Text>
+          <FlatList
+            data={this.state.resultsToDisplay}
+            renderItem={this.Item}
+            keyExtractor={item => item.idDrink}
+          />
+        </View>
       );
     }
     else{
       console.log("no results")
       return(
-        <Text>Drink Something New!</Text>
+        <Text style={styles.text}>Try Something New!</Text>
       );
     }
     
@@ -137,29 +144,11 @@ onScreenFocus = async () => {
 
   render(){
     return (
-      <View style={styles.container}>
-        <Text style={styles.text}>Favorites.</Text>
+      <View style={styles.itemPageContainer}>
         {this.results()}
       </View>
     );
     }
   };
 
-
-  const style = StyleSheet.create({
-    container: {
-      flex: 1,
-    },
-    item: {
-      flexDirection: 'wrap',
-      backgroundColor: '#ffffff',
-      padding: 20,
-      marginVertical: 8,
-      marginHorizontal: 16,
-    },
-    title: {
-      fontSize: 32,
-    },
-  });
-  
   export default FavoritesScreen;

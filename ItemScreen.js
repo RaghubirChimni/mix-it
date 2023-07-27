@@ -5,6 +5,8 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import { Card } from 'react-native-elements'
 import {Font} from 'expo'
 import { Divider } from '@rneui/themed';
+import { styles } from './Styles.js';
+
 
 // will be used for all of the items when they are clicked on.
 // work on formatting this
@@ -36,13 +38,13 @@ class ItemScreen extends Component {
       }
 
       return (
-        <View style={styles.container}>
+        <View style={styles.itemPageContainer}>
           <ScrollView contentContainerStyle={styles.scrollContainer}>
 
           <Image style={styles.image} source={{ uri: itemToDisplay.strDrinkThumb }} />
           <View style={styles.textContainer}>
-            <Text style={styles.title}>{itemToDisplay.strDrink}</Text>
-            <Text style={styles.additionalText}>{itemToDisplay.strAlcoholic}</Text>
+            <Text style={styles.itemPageTitle}>{itemToDisplay.strDrink}</Text>
+            <Text style={styles.itemPageAdditionalText}>{itemToDisplay.strAlcoholic}</Text>
           </View>
 
           <View style={styles.divider}/>
@@ -66,54 +68,3 @@ class ItemScreen extends Component {
   };
   
   export default ItemScreen;
-
-
-  const styles = StyleSheet.create({
-    container: {
-      flex: 1,
-      alignItems: 'center', // Center horizontally
-    },
-    scrollContainer: {
-
-    },
-    image: {
-      width: 300,
-      height: 300,
-      marginTop: 10,
-      borderRadius: 10,
-      alignSelf: 'center', // Center the image within its container
-
-    },
-    textContainer: {
-      marginVertical: 10, 
-      flexDirection: 'row',
-      alignItems: 'baseline', // Add this line to align the heights
-      marginBottom: 4
-    },
-    title: {
-      fontSize: 30,
-      fontWeight: 'bold',
-      textAlign: 'center',
-    },
-    instructions: {
-      fontSize: 15,
-      width: 350,
-    },
-    divider: {
-      width: '100%',
-      height: 1,
-      backgroundColor: 'gray',
-      marginVertical: 10,
-    },
-    section_title: {
-      fontSize: 22,
-      fontWeight: 'bold',
-      textAlign: 'left',
-      marginBottom: 10,
-    },
-    additionalText: {
-      fontSize: 15,
-      color: "gray",
-      marginLeft: 10,
-    },
-  });

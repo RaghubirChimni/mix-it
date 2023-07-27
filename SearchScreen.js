@@ -4,7 +4,8 @@ import { styles } from './Styles.js';
 import { SearchBar, Card } from 'react-native-elements';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { receiveIngredientSetting, receiveDrinkSetting, receiveFavorites, handleFavoritesButton } from './Utils.js';
+import { receiveIngredientSetting, receiveDrinkSetting, receiveFavorites, handleFavoritesButton, Item } from './Utils.js';
+
 
 
 class SearchScreen extends Component {
@@ -247,22 +248,22 @@ async componenetDidMount(){
 
 
   Item = ({item}) => (
-    <View style={style.item}>
-      <TouchableOpacity style={style.title} onPress={
+    <View style={styles.item}>
+      <TouchableOpacity style={styles.itemTitle} onPress={
           () => {
             const {navigation} = this.props
             navigation.navigate("Item Screen", {itemToDisplay: item});
           }
         }>
-        <Image style={style.drinkImage} source={{uri: item.strDrinkThumb}} />
-        <View style ={style.itemInfo}>
-          <Text style={style.title}>{item.strDrink}</Text>
-          <Text style={style.additionalText} numberOfLines={1}>{item.strAlcoholic}</Text>
+        <Image style={styles.drinkImage} source={{uri: item.strDrinkThumb}} />
+        <View style ={styles.itemInfo}>
+          <Text style={styles.itemTitle}>{item.strDrink}</Text>
+          <Text style={styles.additionalTextItem} numberOfLines={1}>{item.strAlcoholic}</Text>
         </View>
 
         </TouchableOpacity>
 
-        <View style={style.starContainer}>
+        <View style={styles.starContainer}>
           <TouchableOpacity onPress={async () => this.setState({favorites: await handleFavoritesButton(item.idDrink)})}>
           <Icon name="star" size={25} color={ this.state.favorites.includes(item.idDrink) ? "gold" : "gray"} />
           </TouchableOpacity>
@@ -294,10 +295,10 @@ async componenetDidMount(){
 
     render(){
       return (
-        <View style={style.container}>
+        <View style={styles.searchContainer}>
           <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', marginHorizontal: 20, marginBottom: 10,  }}>
             <SearchBar 
-              containerStyle={style.searchBar}
+              containerStyle={styles.searchBar}
               placeholder="Search"
               lightTheme='default'
               onChangeText={this.handleSearch}
@@ -319,58 +320,5 @@ async componenetDidMount(){
       }
   };
 
-
-  const style = StyleSheet.create({
-    container: {
-      flex: 1,
-      alignItems: 'center' 
-    },
-    searchBar:{
-      flex: 1, 
-      marginRight: 10,  
-      marginTop: 50,  
-    },
-    item: {
-      flexDirection: 'row', // Align items in a row (horizontally)
-      justifyContent: 'flex-start', // Align items to the left within the item
-      backgroundColor: '#ffffff',
-      padding: 20,
-      marginVertical: 8,
-      marginHorizontal: 0,
-      width: '95%', // Set the parent container width to 100% of the screen width
-      alignItems: 'center',
-      borderRadius: 10,
-    },
-    title: {
-      fontSize: 25,
-      fontWeight: 'bold',
-      flex: 1,
-      flexDirection: 'row',
-      marginLeft: 10
-    },
-    starContainer: {
-      marginLeft: 'auto',
-      width: 50, 
-      alignItems: 'center',
-    },
-    drinkImage: {
-      width: 100,
-      height: 100,
-      marginRight: 10, // Add some space between the image and text
-      borderRadius: 20,
-    },
-    itemInfo: {
-      flex: 1,
-      flexDirection: "column", // Align the components vertically
-      marginBottom: 50, 
-    },
-    additionalText: {
-      fontSize: 12,
-      color: "gray",
-      marginTop: -10,
-      marginLeft: 10
-    },
-  
-  });
   
   export default SearchScreen;
