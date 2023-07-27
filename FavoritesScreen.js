@@ -123,7 +123,7 @@ onScreenFocus = async () => {
       console.log("returning flatlist")
       console.log(this.state.resultsToDisplay)
       return(
-        <View style={{paddingTop: 10}}>
+        <View style={{paddingTop: 20}}>
           <Text style={styles.text}>Favorites.</Text>
           <FlatList
             data={this.state.resultsToDisplay}
@@ -136,7 +136,7 @@ onScreenFocus = async () => {
     else{
       console.log("no results")
       return(
-        <View style={{paddingTop: 10}}>
+        <View style={{paddingTop: 20}}>
           <Text style={styles.text}>Try Something New!</Text>
         </View>
       );

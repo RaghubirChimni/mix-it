@@ -8,6 +8,7 @@ import FavoritesScreen from './FavoritesScreen';
 import SettingsScreen from './SettingsScreen';
 import SearchScreen from './SearchScreen';
 import ItemScreen from './ItemScreen';
+import Icon from 'react-native-vector-icons/FontAwesome';
 
 
 const Stack = createNativeStackNavigator();
@@ -27,7 +28,27 @@ const App = () => {
 
 function TabStackScreen() {
   return (
-    <Tab.Navigator initialRouteName = 'Home'>
+    <Tab.Navigator initialRouteName = 'Home'
+      screenOptions={({ route }) => ({
+        tabBarIcon: ({ focused, color, size }) => {
+          let iconName;
+
+          if (route.name === 'Home') {
+            iconName = focused ? 'home' : 'home'; // Change 'home' to the name of your home icon.
+          } else if (route.name === 'Search') {
+            iconName = focused ? 'search' : 'search'; // Change 'search' to the name of your search icon.
+          } else if (route.name === 'Favorites') {
+            iconName = focused ? 'star' : 'star-o'; // Change 'star' and 'star-o' to the name of your favorite icons.
+          }
+
+          return <Icon name={iconName} size={size} color={color} />;
+        },
+      })}
+      tabBarOptions={{
+        activeTintColor: 'blue', // Change the active tab color
+        inactiveTintColor: 'gray', // Change the inactive tab color
+      }}
+    >
       <Tab.Screen name="Home" component={HomeScreen} options={{headerShown: false, animation: 'none'}}/>
       <Tab.Screen name="Search" component={SearchScreen} options={{headerShown: false,}}/>
       <Tab.Screen name="Favorites" component={FavoritesScreen} options={{headerShown: false,}}/>
