@@ -57,6 +57,7 @@ class HomeScreen extends Component {
         <View style ={styles.itemHomeInfo}>
           <Text style={styles.homeItemTitle}>{item.strDrink}</Text>
           <Text style={styles.additionalTextHomeItem} numberOfLines={1}>{item.strAlcoholic}</Text>
+          <Text style={styles.additionalTextHomeItem}>{item.strIngredient1}</Text>
         </View>
 
         </TouchableOpacity>
