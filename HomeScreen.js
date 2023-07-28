@@ -191,7 +191,7 @@ class HomeScreen extends Component {
       // return component afterwards
       return(
         <View style={{flex:1}}>
-          <Text style={[styles.text, {fontSize: 20}]}>Because you favorited {this.state.drinkName}!</Text>
+          <Text style={[styles.text, {fontSize: 20, paddingBottom: 10}]}>Because you favorited {this.state.drinkName}!</Text>
           <FlatList 
             data={this.state.recommendations_based_on_favorites}
             renderItem={this.Item}
