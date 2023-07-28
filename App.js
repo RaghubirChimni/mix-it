@@ -24,7 +24,6 @@ const App = () => {
           <Stack.Screen name = "Item Screen" component={ItemScreen} />
         </Stack.Navigator>
       </NavigationContainer>
-
 )};
 
 function TabStackScreen() {
@@ -44,11 +43,12 @@ function TabStackScreen() {
 
           return <Icon name={iconName} size={size} color={color} />;
         },
+      
+      tabBarActiveTintColor: 'darkorange', // Change the active tab color
+      tabBarInactiveTintColor: 'gray', // Change the inactive tab color
+      tabBarStyle: { display: 'flex' }, // Change other tab bar styles if needed
       })}
-      tabBarOptions={{
-        activeTintColor: 'blue', // Change the active tab color
-        inactiveTintColor: 'gray', // Change the inactive tab color
-      }}
+
     >
       <Tab.Screen name="Home" component={HomeScreen} options={{headerShown: false, animation: 'none'}}/>
       <Tab.Screen name="Search" component={SearchScreen} options={{headerShown: false,}}/>
