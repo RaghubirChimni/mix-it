@@ -16,14 +16,15 @@ const Tab = createBottomTabNavigator();
 
 const App = () => {
   return(
-    <NavigationContainer>
-      <Stack.Navigator initialRouteName='SplashScreen'>
-        <Stack.Screen name = 'SplashScreen' component={SplashScreen} options={{headerShown: false}}/>
-        <Stack.Screen name = 'MainStack' component={TabStackScreen} options={{headerShown: false, animation: 'none'}}/>
-        <Stack.Screen name = "Search Settings" component={SettingsScreen} />
-        <Stack.Screen name = "Item Screen" component={ItemScreen} />
-      </Stack.Navigator>
-    </NavigationContainer>
+      <NavigationContainer>
+        <Stack.Navigator initialRouteName='SplashScreen'>
+          <Stack.Screen name = 'SplashScreen' component={SplashScreen} options={{headerShown: false}}/>
+          <Stack.Screen name = 'MainStack' component={TabStackScreen} options={{headerShown: false, animation: 'none'}}/>
+          <Stack.Screen name = "Search Settings" component={SettingsScreen} />
+          <Stack.Screen name = "Item Screen" component={ItemScreen} />
+        </Stack.Navigator>
+      </NavigationContainer>
+
 )};
 
 function TabStackScreen() {

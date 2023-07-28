@@ -6,9 +6,8 @@ import Icon from 'react-native-vector-icons/FontAwesome';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { receiveIngredientSetting, receiveDrinkSetting, receiveFavorites, handleFavoritesButton} from './Utils.js';
 
-
-
 class SearchScreen extends Component {
+  // static contextType = useGlobalState;
   constructor(props){
     super(props);
     this.state = {
@@ -22,7 +21,7 @@ class SearchScreen extends Component {
     this.timeoutId = null;
   }
 
-async componenetDidMount(){
+async componentDidMount(){
     this.performSearch();
     this.props.navigation.addListener('focus', this.onScreenFocus);
     this.updateFavorites(); // Call updateFavorites when the component mounts
@@ -53,8 +52,6 @@ async componentWillUnmount() {
       console.log('Error fetching favorites:', error);
     }
   };
-
-
 
   // need to only search after whole query is written
   async performSearch(){
@@ -312,28 +309,28 @@ async componentWillUnmount() {
   }
 
     render(){
+      // const { favorites, setFavorites } = useGlobalState(); // Access the global favorites state and the function to update it
       return (
-        <View style={styles.searchContainer}>
-          <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', marginHorizontal: 20, marginBottom: 10,  }}>
-            <SearchBar 
-              containerStyle={styles.searchBar}
-              placeholder="Search"
-              lightTheme='default'
-              onChangeText={this.handleSearch}
-              value={this.state.query}
-            />
+          <View style={styles.searchContainer}>
+            <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', marginHorizontal: 20, marginBottom: 10,  }}>
+              <SearchBar 
+                containerStyle={styles.searchBar}
+                placeholder="Search"
+                lightTheme='default'
+                onChangeText={this.handleSearch}
+                value={this.state.query}
+              />
 
-            <View style={{marginTop: 50}}>
-              <this.SettingsButton onPress={this.handleSettingsButton}/>
+              <View style={{marginTop: 50}}>
+                <this.SettingsButton onPress={this.handleSettingsButton}/>
+              </View>
+
             </View>
 
+            <View>
+              {this.results()}
+            </View>
           </View>
-
-          <View>
-            {this.results()}
-          </View>
-          {/* <this.results/> */}
-        </View>
       );
       }
   };
