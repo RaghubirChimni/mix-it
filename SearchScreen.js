@@ -219,7 +219,7 @@ async componentWillUnmount() {
           let ing = "strIngredient" + j.toString()
           let measure = "strMeasure"+ j.toString()
           if(s[ing] == null){
-            print("no ingredient"+toString(i))
+            print("no ingredient"+i.toString())
             break;
           }
           else{
@@ -327,7 +327,7 @@ async componentWillUnmount() {
 
             </View>
 
-            <View>
+            <View style={{flex:1}}>
               {this.results()}
             </View>
           </View>

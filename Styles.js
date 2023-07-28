@@ -111,6 +111,46 @@ export const styles = StyleSheet.create({
       color: "gray",
       marginLeft: 10,
     },
+
+    itemHomePage:{
+      flexDirection: 'row', // Align items in a row (horizontally)
+      justifyContent: 'flex-start', // Align items to the left within the item
+      backgroundColor: '#ffffff',
+      padding: 20,
+      marginVertical: 8,
+      marginHorizontal: 0,
+      width: '50%', // Set the parent container width to 100% of the screen width
+      height: '50%',
+      alignItems: 'center',
+      borderRadius: 10,
+      
+    }, 
+    drinkImageHomeItem: {
+      width: 25,
+      height: 25,
+      marginRight: 1, // Add some space between the image and text
+      borderRadius: 20,
+    },
+    homeItemTitle: {
+      fontSize: 10,
+      fontWeight: 'bold',
+      flex: 1,
+      marginLeft: 10,
+      marginBottom: 10
+    },
     
+    itemHomeInfo: {
+      flex: 1,
+      flexDirection: "column", // Align the components vertically
+      marginBottom: 10, 
+      flexDirection: 'row',
+    },
+    additionalTextHomeItem : {
+      fontSize: 10,
+      color: "gray",
+      marginBottom: 10,
+      marginLeft: 10
+    },
+
   });
 
