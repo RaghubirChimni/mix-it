@@ -1,5 +1,5 @@
 import React, { useEffect, useState, Component } from 'react';
-import { View, Pressable, Text, TouchableOpacity, FlatList, Image} from 'react-native';
+import { View, Pressable, Text, TouchableOpacity, FlatList, Image, SafeAreaView} from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import { styles } from './Styles.js';
 import AsyncStorage from '@react-native-async-storage/async-storage';
@@ -55,7 +55,7 @@ class HomeScreen extends Component {
         }>
         <Image style={styles.drinkImageHomeItem} source={{uri: item.strDrinkThumb}} />
         <View style ={styles.itemHomeInfo}>
-          <Text style={styles.homeItemTitle}>{item.strDrink}</Text>
+          <Text style={styles.homeItemTitle} numberOfLines={2}>{item.strDrink}</Text>
           <Text style={styles.additionalTextHomeItem} numberOfLines={1}>{item.strAlcoholic}</Text>
           <Text style={styles.additionalTextHomeItem}>{item.strIngredient1}</Text>
         </View>
@@ -197,7 +197,7 @@ class HomeScreen extends Component {
             renderItem={this.Item}
             keyExtractor={item => item.idDrink}
             horizontal={true}
-            contentContainerStyle={{ paddingHorizontal: 5 }}
+            
             />
         </View>
       );
