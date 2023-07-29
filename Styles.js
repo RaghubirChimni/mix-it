@@ -159,6 +159,20 @@ export const styles = StyleSheet.create({
       marginLeft: 14,
       fontFamily: 'Cochin'
     },
+    checkbox: {
+      height: 20,
+      borderWidth: 2,
+      borderRadius: 4,
+      justifyContent: 'center',
+      alignItems: 'center',
+      borderColor: 'gray',  
+    },
+    checked: {
+      backgroundColor: 'darkred',
+    },
+    unchecked: {
+      backgroundColor: 'white',
+    },
 
   });
 

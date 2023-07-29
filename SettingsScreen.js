@@ -49,24 +49,30 @@ class SettingsScreen extends Component {
 
     render(){
       return (
-        <View style = {{}}>
-          <Text> Search By:</Text>
-          <View style={{flexDirection:'row'}}>
+        <View style = {{flex:1}}>
+          <Text style={styles.text}>Search By:</Text>
+          <View style={{flexDirection:'row', alignItems: 'baseline'}}>
             <CheckBox
-              style = {{alignSelf: 'center'}}
+              size={30}
+              style = {styles.checkbox}
               checked={this.state.drink}
               onPress={this.handleDrinkChange}
+              checkedColor="darkred" // Customize the checked color
+              uncheckedColor="black" // Customize the unchecked color
             />
-            <Text>Drink</Text>
+            <Text style={[styles.text, {fontSize: 25}, {paddingTop: 0}]}>Drink</Text>
           </View>
 
           <View style={{flexDirection:'row'}}>
             <CheckBox
-                style = {{alignSelf: 'center'}}
+                size={30}
+                style = {styles.checkbox}
                 checked={this.state.ingredient}
                 onPress={this.handleIngredientChange}
+                checkedColor="darkred" // Customize the checked color
+                uncheckedColor="black" // Customize the unchecked color
               />
-            <Text>Ingredient</Text>
+            <Text style={[styles.text, {fontSize: 25}, {paddingTop: 0}]}>Ingredient</Text>
           </View>
         </View>
       );
