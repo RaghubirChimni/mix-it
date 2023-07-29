@@ -26,7 +26,7 @@ class ItemScreen extends Component {
         let numIngredients = parseInt(itemToDisplay.numIngredients)
         for(let i = 1; i <= numIngredients; i++){
           results.push(
-            <Text key={i} >
+            <Text key={i} style={{fontFamily: 'Cochin'}} >
               {itemToDisplay["strMeasure" + i.toString()]}
               {itemToDisplay["strIngredient" + i.toString()]}
             </Text>

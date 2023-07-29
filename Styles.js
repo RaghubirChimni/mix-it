@@ -42,7 +42,8 @@ export const styles = StyleSheet.create({
       flex: 1,
       flexDirection: 'row',
       marginLeft: 10,
-      marginBottom: 10
+      marginBottom: 10, 
+      fontFamily: 'Cochin'
     },
     starContainer: {
       marginLeft: 'auto',
@@ -64,7 +65,8 @@ export const styles = StyleSheet.create({
       fontSize: 12,
       color: "gray",
       marginTop: -10,
-      marginLeft: 10
+      marginLeft: 10, 
+      fontFamily: 'Cochin'
     },
 
     scrollContainer: {
@@ -88,11 +90,13 @@ export const styles = StyleSheet.create({
       fontSize: 30,
       fontWeight: 'bold',
       textAlign: 'center',
-      flexShrink: 1
+      flexShrink: 1, 
+      fontFamily: 'Cochin'
     },
     instructions: {
       fontSize: 15,
       width: 350,
+      fontFamily: 'Cochin'
     },
     divider: {
       width: '100%',
@@ -105,11 +109,13 @@ export const styles = StyleSheet.create({
       fontWeight: 'bold',
       textAlign: 'left',
       marginBottom: 10,
+      fontFamily: 'Cochin'
     },
     itemPageAdditionalText: {
       fontSize: 15,
       color: "gray",
       marginLeft: 10,
+      fontFamily: 'Cochin'
     },
     itemHomePage: {
       flexDirection: 'row', // Align items in a row (horizontally)
@@ -134,23 +140,26 @@ export const styles = StyleSheet.create({
       alignSelf: 'center'
     },
     homeItemTitle: {
-      fontSize: 13,
+      fontSize: 15,
       fontWeight: 'bold',
       // flex: 1,
       marginLeft: -7,
       marginBottom: -10, 
       padding: 20,
       flexWrap: 'wrap', 
+      fontFamily: 'Cochin'
     },
     itemHomeInfo: {
       flex: 1,
       flexDirection: "column",
+      fontFamily: 'Cochin'
     },
     additionalTextHomeItem: {
-      fontSize: 10,
+      fontSize: 12,
       color: "gray",
       marginBottom: 5,
-      marginLeft: 14
+      marginLeft: 14,
+      fontFamily: 'Cochin'
     },
 
   });
