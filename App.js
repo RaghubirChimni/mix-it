@@ -21,7 +21,23 @@ const App = () => {
         <Stack.Navigator initialRouteName='SplashScreen'>
           <Stack.Screen name = 'SplashScreen' component={SplashScreen} options={{headerShown: false}}/>
           <Stack.Screen name = 'MainStack' component={TabStackScreen} options={{headerShown: false, animation: 'none'}}/>
-          <Stack.Screen name = "Search Settings" component={SettingsScreen} />
+          <Stack.Screen name = "Search Settings" 
+            component={SettingsScreen} 
+            options={() => ({
+              headerStyle: {
+                backgroundColor: 'darkred', // Set your desired header background color
+              },
+              headerTintColor: 'red', // Set the color of the header text and buttons
+              headerTitle: () => {
+                return (
+                  <Text style={{ fontSize: 20, color: 'black', fontFamily: 'Cochin' }}>
+                    Settings
+                  </Text>
+                );
+              },
+            })}
+          
+          />
           <Stack.Screen name = "Item Screen" 
             component={ItemScreen} 
             options={({ route }) => ({
