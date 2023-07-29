@@ -126,8 +126,8 @@ export const styles = StyleSheet.create({
       marginVertical: 5, // Vertical margin
       marginLeft: 5, // Left margin
       marginRight: 5, // Right margin
-      width: 250, // Set the parent container width to 100% of the screen width
-      height: '30%',
+      width: 230, // Set the parent container width to 100% of the screen width
+      height: 100,
       alignItems: 'center',
       borderRadius: 10,
     },
@@ -140,7 +140,7 @@ export const styles = StyleSheet.create({
       alignSelf: 'center'
     },
     homeItemTitle: {
-      fontSize: 15,
+      fontSize: 14,
       fontWeight: 'bold',
       // flex: 1,
       marginLeft: -7,

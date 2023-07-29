@@ -1,5 +1,5 @@
 import React, { useEffect, useState, Component } from 'react';
-import { View, Pressable, Text, TouchableOpacity, FlatList, Image, SafeAreaView} from 'react-native';
+import { View, Pressable, Text, TouchableOpacity, FlatList, Image, ScrollView, RefreshControl} from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import { styles } from './Styles.js';
 import AsyncStorage from '@react-native-async-storage/async-storage';
@@ -18,6 +18,7 @@ class HomeScreen extends Component {
       anyRecs: false, 
       drinkName1: '',
       drinkName2: '',
+      refreshing: false
     }
   }
 
@@ -179,6 +180,8 @@ class HomeScreen extends Component {
     let endpoint = 'https://www.thecocktaildb.com/api/json/v1/1/random.php'
     let n = 7
 
+    this.setState({[arrayKeyToPutResults]: []})
+    
     for(let i = 0; i < n; i++){
       fetch(endpoint)
       .then((response) => response.json())
@@ -225,7 +228,7 @@ class HomeScreen extends Component {
   random_new_items_component = () => {
     return(
       <View style={{flex:1}}>
-        <Text style={[styles.text, {fontSize: 20, paddingBottom: 10}]}>Try something new!</Text>
+        <Text style={[styles.text, {fontSize: 25, paddingBottom: 10}]}>Try something new!</Text>
         <FlatList 
           data={this.state.new_things}
           renderItem={this.Item}
@@ -240,7 +243,7 @@ class HomeScreen extends Component {
     if(this.state.favorites.length == 0){
       return(
         <View style={{flex:1}}>
-          <Text style={[styles.text, {fontSize: 20, paddingBottom: 10}]}>
+          <Text style={[styles.text, {fontSize: 25, paddingBottom: 10}]}>
             Some Exciting Drinks!
           </Text>
           <FlatList 
@@ -256,7 +259,7 @@ class HomeScreen extends Component {
       // return component afterwards
       return(
         <View style={{flex:1}}>
-          <Text style={[styles.text, {fontSize: 20, paddingBottom: 10}]}>Because you favorited {this.state.drinkName1}!</Text>
+          <Text style={[styles.text, {fontSize: 25, paddingBottom: 10}]}>Because you favorited {this.state.drinkName1}!</Text>
           <FlatList 
             data={this.state.recommendations_based_on_favorites}
             renderItem={this.Item}
@@ -269,15 +272,33 @@ class HomeScreen extends Component {
     }
   }
 
+  refresh = async () => {
+    this.setState({refreshing: true})
+
+    await this.callAPIRandomRecs('new_things');
+    this.recs_based_on_favs();
+
+    this.setState({refreshing: false})
+  }
+
     render(){
       return (
-        <View style={{ marginTop: 50, flex:1 }}>
+        <ScrollView
+          style={{ marginTop: 50, flex:1 }}
+          refreshControl={
+            <RefreshControl 
+              refreshing={this.state.refreshing}
+              onRefresh={this.refresh}
+            />
+          }
+        
+        >
           <View style={{flex:1}}>
             {this.random_new_items_component()}
             {this.recs_component()}
 
           </View>
-        </View>
+        </ScrollView>
       );
       }
   };

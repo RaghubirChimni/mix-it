@@ -44,8 +44,8 @@ function TabStackScreen() {
           return <Icon name={iconName} size={size} color={color} />;
         },
       
-      tabBarActiveTintColor: 'darkorange', // Change the active tab color
-      tabBarInactiveTintColor: 'gray', // Change the inactive tab color
+      tabBarActiveTintColor: 'darkred', // Change the active tab color
+      tabBarInactiveTintColor: 'black', // Change the inactive tab color
       tabBarStyle: { display: 'flex' }, // Change other tab bar styles if needed
       })}
 
