@@ -31,7 +31,7 @@ export const styles = StyleSheet.create({
       backgroundColor: '#ffffff',
       padding: 20,
       marginVertical: 8,
-      marginHorizontal: 0,
+      marginHorizontal: 10,
       width: '95%', // Set the parent container width to 100% of the screen width
       alignItems: 'center',
       borderRadius: 10,
@@ -123,9 +123,7 @@ export const styles = StyleSheet.create({
       backgroundColor: '#ffffff',
       paddingHorizontal: 5, // Horizontal padding
       paddingVertical: 5, // Vertical padding
-      marginVertical: 5, // Vertical margin
-      marginLeft: 5, // Left margin
-      marginRight: 5, // Right margin
+      marginHorizontal: 10,
       width: 230, // Set the parent container width to 100% of the screen width
       height: 100,
       alignItems: 'center',
