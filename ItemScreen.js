@@ -28,7 +28,14 @@ class ItemScreen extends Component {
           
           let m = itemToDisplay["strMeasure" + i.toString()];
 
-          if(!m.endsWith(' ')){
+          if(m == null){
+            results.push(
+              <Text key={i} style={{fontFamily: 'Cochin'}} >
+                {itemToDisplay["strIngredient" + i.toString()]}
+              </Text>
+            );
+          }
+          else if(!m.endsWith(' ')){
             itemToDisplay["strMeasure" + i.toString()] += ' '
           }
 
@@ -68,7 +75,7 @@ class ItemScreen extends Component {
           </View>
 
           <View style={styles.divider}/>
-          <Text style={[styles.section_title, {fontSize: drinkTitleSize()-2}]}>Ingredients:</Text>  
+          <Text style={[styles.section_title, {fontSize: drinkTitleSize()-2}]}>What You Need:</Text>  
               {get_measurements_ingredients()}
 
           <View style={styles.divider}/>

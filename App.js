@@ -4,6 +4,7 @@ import HomeScreen from './HomeScreen';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { NavigationContainer } from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import { Text } from 'react-native';
 import FavoritesScreen from './FavoritesScreen';
 import SettingsScreen from './SettingsScreen';
 import SearchScreen from './SearchScreen';
@@ -21,7 +22,23 @@ const App = () => {
           <Stack.Screen name = 'SplashScreen' component={SplashScreen} options={{headerShown: false}}/>
           <Stack.Screen name = 'MainStack' component={TabStackScreen} options={{headerShown: false, animation: 'none'}}/>
           <Stack.Screen name = "Search Settings" component={SettingsScreen} />
-          <Stack.Screen name = "Item Screen" component={ItemScreen} />
+          <Stack.Screen name = "Item Screen" 
+            component={ItemScreen} 
+            options={({ route }) => ({
+              headerStyle: {
+                backgroundColor: 'darkred', // Set your desired header background color
+              },
+              headerTintColor: 'red', // Set the color of the header text and buttons
+              headerTitle: () => {
+                const { itemToDisplay } = route.params;
+                return (
+                  <Text style={{ fontSize: 20, color: 'black', fontFamily: 'Cochin' }}>
+                    {itemToDisplay.strDrink}
+                  </Text>
+                );
+              },
+            })}
+          />
         </Stack.Navigator>
       </NavigationContainer>
 )};
