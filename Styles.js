@@ -148,7 +148,7 @@ export const styles = StyleSheet.create({
       fontFamily: 'Cochin'
     },
     itemHomeInfo: {
-      flex: 1,
+      flex: 3,
       flexDirection: "column",
       fontFamily: 'Cochin'
     },
