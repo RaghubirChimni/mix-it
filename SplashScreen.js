@@ -8,14 +8,17 @@ const SplashScreen = ({navigation}) => {
     const timer = setTimeout(() => {
       // navigate to the next screen after a timeout of 4 seconds of the splash screen
       navigation.replace('MainStack');
-    }, 4000);
+    }, 5000);
 
     return () => clearTimeout(timer);
   }, [navigation]);
 
   return (
-    <View style={styles.container}>
-      <Text style={styles.text}>Insert 'mix it' logo here.</Text>
+    <View style={[styles.container,]}>
+      <Image
+        source={require('./mix-it_logo2_update.png')}
+        style={{ width: 500, height: 500, resizeMode: 'contain' }}
+      />
     </View>
 );
 };
