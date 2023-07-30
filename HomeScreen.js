@@ -234,6 +234,7 @@ class HomeScreen extends Component {
           renderItem={this.Item}
           keyExtractor={item => item.idDrink}
           horizontal={true}
+          showsHorizontalScrollIndicator={false}
         />
       </View>
     );
@@ -251,6 +252,7 @@ class HomeScreen extends Component {
             renderItem={this.Item}
             keyExtractor={item => item.idDrink}
             horizontal={true}
+            showsHorizontalScrollIndicator={false}
           />
         </View>
       );
@@ -265,7 +267,7 @@ class HomeScreen extends Component {
             renderItem={this.Item}
             keyExtractor={item => item.idDrink}
             horizontal={true}
-            
+            showsHorizontalScrollIndicator={false}
             />
         </View>
       );

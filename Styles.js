@@ -124,7 +124,7 @@ export const styles = StyleSheet.create({
       paddingHorizontal: 5, // Horizontal padding
       paddingVertical: 5, // Vertical padding
       marginHorizontal: 10,
-      width: 230, // Set the parent container width to 100% of the screen width
+      width: 240, // Set the parent container width to 100% of the screen width
       height: 100,
       alignItems: 'center',
       borderRadius: 10,

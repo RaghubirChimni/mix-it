@@ -19,12 +19,14 @@ class SearchScreen extends Component {
       resultsToDisplay: [],
     }
     this.timeoutId = null;
+    this.searchBarRef = React.createRef();
   }
 
 async componentDidMount(){
     this.performSearch();
     this.props.navigation.addListener('focus', this.onScreenFocus);
-    this.updateFavorites(); // Call updateFavorites when the component mounts
+    this.updateFavorites();
+    this.searchBarRef.current.focus();
   }
 
  async componentDidUpdate(_, prevState){
@@ -314,6 +316,7 @@ async componentWillUnmount() {
           <View style={styles.searchContainer}>
             <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', marginHorizontal: 20, marginBottom: 10,  }}>
               <SearchBar 
+                ref={this.searchBarRef}
                 containerStyle={styles.searchBar}
                 placeholder="Search"
                 lightTheme='default'
