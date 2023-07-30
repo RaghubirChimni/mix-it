@@ -35,16 +35,17 @@ class ItemScreen extends Component {
               </Text>
             );
           }
-          else if(!m.endsWith(' ')){
-            itemToDisplay["strMeasure" + i.toString()] += ' '
+          else{
+            if(!m.endsWith(' ')){
+              itemToDisplay["strMeasure" + i.toString()] += ' '
+            }
+            results.push(
+              <Text key={i} style={{fontFamily: 'Cochin'}} >
+                {itemToDisplay["strMeasure" + i.toString()]}
+                {itemToDisplay["strIngredient" + i.toString()]}
+              </Text>
+            );
           }
-
-          results.push(
-            <Text key={i} style={{fontFamily: 'Cochin'}} >
-              {itemToDisplay["strMeasure" + i.toString()]}
-              {itemToDisplay["strIngredient" + i.toString()]}
-            </Text>
-          );
         }
 
         return results;
