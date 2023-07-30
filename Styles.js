@@ -141,9 +141,9 @@ export const styles = StyleSheet.create({
       fontSize: 14,
       fontWeight: 'bold',
       // flex: 1,
-      marginLeft: -7,
-      marginBottom: -10, 
-      padding: 20,
+      marginLeft: 10,
+      paddingTop: 20,
+      paddingBottom: 5,
       flexWrap: 'wrap', 
       fontFamily: 'Cochin'
     },
@@ -156,7 +156,7 @@ export const styles = StyleSheet.create({
       fontSize: 12,
       color: "gray",
       marginBottom: 5,
-      marginLeft: 14,
+      marginLeft: 10,
       fontFamily: 'Cochin'
     },
     checkbox: {
