@@ -27,7 +27,7 @@ class HomeScreen extends Component {
     this.props.navigation.addListener('focus', this.onScreenFocus);
     await this.updateFavorites(); // Call updateFavorites when the component mounts
     await this.callAPIRandomRecs('new_things');
-    this.recs_based_on_favs();
+    await this.recs_based_on_favs();
   }
 
   async componentWillUnmount() {
@@ -41,12 +41,31 @@ class HomeScreen extends Component {
   updateFavorites = async () => {
     try {
       console.log("updated favorites");
-      this.setState({ favorites: await receiveFavorites()});
+      const prevFavorites = this.state.favorites;
+      const newFavorites = await receiveFavorites();
+      if (!this.arraysAreEqual(prevFavorites, newFavorites)) { // Compare arrays directly
+        this.setState({ favorites: newFavorites });
+        await this.recs_based_on_favs();
+      }
     } catch (error) {
       console.log('Error fetching favorites:', error);
     }
   };
 
+  arraysAreEqual = (arr1, arr2) => {
+    if (arr1.length !== arr2.length) {
+      return false;
+    }
+  
+    for (let i = 0; i < arr1.length; i++) {
+      if (arr1[i] !== arr2[i]) {
+        return false;
+      }
+    }
+  
+    return true;
+  }
+  
 
   Item = ({item}) =>  (
     <View style={styles.itemHomePage}>
@@ -66,7 +85,10 @@ class HomeScreen extends Component {
         </TouchableOpacity>
 
         <View style={styles.starContainer}>
-          <TouchableOpacity onPress={async () => this.setState({favorites: await handleFavoritesButton(item.idDrink)})}>
+          <TouchableOpacity onPress={async () => {
+            await handleFavoritesButton(item.idDrink);
+            this.updateFavorites();
+          }}>
           <Icon name="star" size={25} color={ this.state.favorites.includes(item.idDrink) ? "gold" : "gray"} />
           </TouchableOpacity>
         </View>
@@ -75,9 +97,11 @@ class HomeScreen extends Component {
   );
 
   recs_based_on_favs = async () => {
+    console.log('recs_based_on_favs')
     let endpoint = 'https://www.thecocktaildb.com/api/json/v1/1/'
     if(this.state.favorites.length == 0){
       // give random recs
+      console.log('random recs')
       endpoint += 'random.php'
       this.setState({new_things_if_no_favorites: []})
       await this.callAPIRandomRecs('new_things_if_no_favorites')
@@ -187,7 +211,8 @@ class HomeScreen extends Component {
       .then((response) => response.json())
       .then((data) => {
         s = data['drinks'][[0]]
-        if(!this.state.favorites.includes(s['idDrink']) && !this.state[arrayKeyToPutResults].includes(s['idDrink'])){
+        if(!this.state.favorites.includes(s['idDrink']) && !this.state[arrayKeyToPutResults].includes(s['idDrink']) || (arrayKeyToPutResults == 'new_things_if_no_favorites' && !this.state.new_things.includes(s['idDrink']))){
+
           let drinkResult = {
             "idDrink": s["idDrink"], 
             "strDrink": s["strDrink"], 
@@ -242,6 +267,8 @@ class HomeScreen extends Component {
 
   recs_component = () => {
     if(this.state.favorites.length == 0){
+      // if(this.state.new_things_if_no_favorites.length == 0)
+      //   this.recs_based_on_favs()
       return(
         <View style={{flex:1}}>
           <Text style={[styles.text, {fontSize: 25, paddingBottom: 10}]}>
