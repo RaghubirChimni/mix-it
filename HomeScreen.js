@@ -170,45 +170,45 @@ class HomeScreen extends Component {
         origQuery = data; 
       });
         // let n = 0
-        if(origQuery != null){
-          let n = Math.min(7, origQuery["drinks"].length)
-          console.log('min: ' + n.toString())
-          
-          for (let i = 0; i < n; i++){
-            let dID = origQuery["drinks"][i]["idDrink"] // get important fields from each result and put in state
-            console.log('i: ' + i.toString() + ' id: ' + dID)
-            if(!this.idDrinkInside(dID, arrayKeyToPutResults) && !this.state.favorites.includes(dID)){
-              fetch("https://www.thecocktaildb.com/api/json/v1/1/lookup.php?i=" + dID)
-              .then((response) => response.json())
-              .then((data) => {
-                // console.log(data)
-                s =  data['drinks'][0];
-                // console.log(s['idDrink']);
-                let drinkResult = {
-                  "idDrink": s["idDrink"], 
-                  "strDrink": s["strDrink"], 
-                  "strAlcoholic": s["strAlcoholic"], 
-                  "strInstructions": s["strInstructions"],
-                  "strDrinkThumb": s["strDrinkThumb"] + "/preview"
+      if(origQuery != null){
+        let n = Math.min(7, origQuery["drinks"].length)
+        console.log('min: ' + n.toString())
+        
+        for (let i = 0; i < n; i++){
+          let dID = origQuery["drinks"][i]["idDrink"] // get important fields from each result and put in state
+          console.log('i: ' + i.toString() + ' id: ' + dID)
+          if(!this.idDrinkInside(dID, arrayKeyToPutResults) && !this.state.favorites.includes(dID)){
+            fetch("https://www.thecocktaildb.com/api/json/v1/1/lookup.php?i=" + dID)
+            .then((response) => response.json())
+            .then((data) => {
+              // console.log(data)
+              s =  data['drinks'][0];
+              // console.log(s['idDrink']);
+              let drinkResult = {
+                "idDrink": s["idDrink"], 
+                "strDrink": s["strDrink"], 
+                "strAlcoholic": s["strAlcoholic"], 
+                "strInstructions": s["strInstructions"],
+                "strDrinkThumb": s["strDrinkThumb"] + "/preview"
+              }
+              for(let j = 1; j <= 15; j++){
+                let ing = "strIngredient" + j.toString()
+                let measure = "strMeasure"+ j.toString()
+                if(s[ing] == null){
+                  print("no ingredient"+i.toString())
+                  break;
                 }
-                for(let j = 1; j <= 15; j++){
-                  let ing = "strIngredient" + j.toString()
-                  let measure = "strMeasure"+ j.toString()
-                  if(s[ing] == null){
-                    print("no ingredient"+i.toString())
-                    break;
-                  }
-                  else{
-                    drinkResult[ing] = s[ing];
-                    drinkResult[measure] = s[measure];
-                    print("added drink")
-                    drinkResult["numIngredients"] = j
-                  }
+                else{
+                  drinkResult[ing] = s[ing];
+                  drinkResult[measure] = s[measure];
+                  print("added drink")
+                  drinkResult["numIngredients"] = j
                 }
-                console.log('drinkId to add: ' + s['idDrink'])
-                this.setState((prevState) => ({
-                  [arrayKeyToPutResults]: [...prevState[arrayKeyToPutResults], drinkResult]
-                }));
+              }
+              console.log('drinkId to add: ' + s['idDrink'])
+              this.setState((prevState) => ({
+                [arrayKeyToPutResults]: [...prevState[arrayKeyToPutResults], drinkResult]
+              }));
                 
           });
         }
