@@ -2,8 +2,6 @@ import React, { useEffect, useState, Component } from 'react';
 import { View, Pressable, Text, TouchableOpacity, FlatList, Image, ScrollView, RefreshControl} from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import { styles } from './Styles.js';
-import AsyncStorage from '@react-native-async-storage/async-storage';
-import { Card } from 'react-native-elements'
 import { receiveFavorites, handleFavoritesButton} from './Utils.js';
 
 
@@ -18,7 +16,9 @@ class HomeScreen extends Component {
       anyRecs: false, 
       drinkName1: '',
       drinkName2: '',
-      refreshing: false
+      refreshing: false, 
+      called_recs_based_on_favs: false,
+      on_start: true,
     }
   }
 
@@ -27,7 +27,7 @@ class HomeScreen extends Component {
     this.props.navigation.addListener('focus', this.onScreenFocus);
     await this.updateFavorites(); // Call updateFavorites when the component mounts
     await this.callAPIRandomRecs('new_things');
-    await this.recs_based_on_favs();
+    this.setState({on_start: false})
   }
 
   async componentWillUnmount() {
@@ -35,17 +35,26 @@ class HomeScreen extends Component {
   }
 
   onScreenFocus = async () => {
-    await this.updateFavorites(); // Call updateFavorites when the screen comes into focus
+    if(!this.state.on_start)
+      await this.updateFavorites(); // Call updateFavorites when the screen comes into focus
   }
 
   updateFavorites = async () => {
     try {
+      console.log('updateFavorites() called')
       console.log("updated favorites");
       const prevFavorites = this.state.favorites;
       const newFavorites = await receiveFavorites();
       if (!this.arraysAreEqual(prevFavorites, newFavorites)) { // Compare arrays directly
         this.setState({ favorites: newFavorites });
+        console.log('called recs_based_on_favs')
         await this.recs_based_on_favs();
+        this.setState({called_recs_based_on_favs: true});
+      }
+      else if(!this.called_recs_based_on_favs){
+        console.log('called recs_based_on_favs')
+        await this.recs_based_on_favs();
+        this.setState({called_recs_based_on_favs: true});
       }
     } catch (error) {
       console.log('Error fetching favorites:', error);
@@ -97,7 +106,11 @@ class HomeScreen extends Component {
   );
 
   recs_based_on_favs = async () => {
-    console.log('recs_based_on_favs')
+    console.log('recs_based_on_favs()')
+
+    if(this.state.called_recs_based_on_favs){
+      console.log('already caled')
+    }
     let endpoint = 'https://www.thecocktaildb.com/api/json/v1/1/'
     if(this.state.favorites.length == 0){
       // give random recs
@@ -129,40 +142,48 @@ class HomeScreen extends Component {
       endpoint += "filter.php?i=" + ingredient
       // then callAPI() with endpoint and recommendations_based_on_favorites as arguments
       this.setState({recommendations_based_on_favorites: []})
-      await this.callAPIPersonalRecs(endpoint, 'recommendations_based_on_favorites', drinkID);
-      this.setState({anyRecs: true});
       this.setState({drinkName1: drinkName})
+      await this.callAPIPersonalRecs(endpoint, 'recommendations_based_on_favorites', drinkID);
         // return component afterwards
     }
   }
 
+  idDrinkInside = (idDrink, arrayKeyToPutResults) => {
+    for (let i = 0; i < this.state[arrayKeyToPutResults].length; i++) {
+      if (this.state[arrayKeyToPutResults][i]['idDrink'] == idDrink) {
+        console.log('idDrinkInside returned true')
+        return true;
+      }
+      // console.log(this.state[arrayKeyToPutResults][i]['idDrink'])
+    }
+    console.log('idDrinkInside returned false')
+    return false;
+  }
+
   callAPIPersonalRecs = async (endpoint, arrayKeyToPutResults, drinkID) => { // calls API at endpoint and stores in corresponding state array
     console.log('callAPIPersonalRecs()')
-
+    let origQuery = null;
     // return;
     await fetch(endpoint)
       .then((response) => response.json())
       .then((data) => {
-        let origQuery = data;
-        let n = 0
-        if(data["drinks"] != null){
-
-          n = Math.min(7, data["drinks"].length)
-
-          console.log(n.toString())
-          console.log(data['drinks'])
+        origQuery = data; 
+      });
+        // let n = 0
+        if(origQuery != null){
+          let n = Math.min(7, origQuery["drinks"].length)
+          console.log('min: ' + n.toString())
           
           for (let i = 0; i < n; i++){
-            
-            let dID = origQuery["drinks"][i]['idDrink'] // get important fields from each result and put in state
-            console.log('id: ' + dID)
-            if(drinkID != dID){
+            let dID = origQuery["drinks"][i]["idDrink"] // get important fields from each result and put in state
+            console.log('i: ' + i.toString() + ' id: ' + dID)
+            if(!this.idDrinkInside(dID, arrayKeyToPutResults) && !this.state.favorites.includes(dID)){
               fetch("https://www.thecocktaildb.com/api/json/v1/1/lookup.php?i=" + dID)
               .then((response) => response.json())
               .then((data) => {
-                console.log(data)
+                // console.log(data)
                 s =  data['drinks'][0];
-                console.log(s['idDrink']);
+                // console.log(s['idDrink']);
                 let drinkResult = {
                   "idDrink": s["idDrink"], 
                   "strDrink": s["strDrink"], 
@@ -184,7 +205,7 @@ class HomeScreen extends Component {
                     drinkResult["numIngredients"] = j
                   }
                 }
-
+                console.log('drinkId to add: ' + s['idDrink'])
                 this.setState((prevState) => ({
                   [arrayKeyToPutResults]: [...prevState[arrayKeyToPutResults], drinkResult]
                 }));
@@ -192,11 +213,10 @@ class HomeScreen extends Component {
           });
         }
       }
+      console.log('callAPIPersonalRecs done')
+      // console.log(this.state[arrayKeyToPutResults])
     }
 
-     }).catch(error => {
-        console.log(error);
-      });
   }
 
 
@@ -210,8 +230,9 @@ class HomeScreen extends Component {
       fetch(endpoint)
       .then((response) => response.json())
       .then((data) => {
-        s = data['drinks'][[0]]
-        if(!this.state.favorites.includes(s['idDrink']) && !this.state[arrayKeyToPutResults].includes(s['idDrink']) || (arrayKeyToPutResults == 'new_things_if_no_favorites' && !this.state.new_things.includes(s['idDrink']))){
+        s = data['drinks'][0]
+        // look at this line
+        if(!this.state.favorites.includes(s['idDrink']) && !this.idDrinkInside(s['idDrink'], 'new_things') && !this.idDrinkInside(s['idDrink'], 'new_things_if_no_favorites')){
 
           let drinkResult = {
             "idDrink": s["idDrink"], 
@@ -246,6 +267,7 @@ class HomeScreen extends Component {
         console.log(error);
       });
     }
+
   } 
 
 
@@ -266,9 +288,11 @@ class HomeScreen extends Component {
   }
 
   recs_component = () => {
+    // console.log('recs_component')
     if(this.state.favorites.length == 0){
       // if(this.state.new_things_if_no_favorites.length == 0)
-      //   this.recs_based_on_favs()
+      // console.log('this.state.favorites.length == 0')
+      // console.log(this.state.new_things_if_no_favorites)
       return(
         <View style={{flex:1}}>
           <Text style={[styles.text, {fontSize: 25, paddingBottom: 10}]}>
@@ -286,6 +310,7 @@ class HomeScreen extends Component {
     }
     else{
       // return component afterwards
+      // console.log('this.state.favorites.length != 0)')
       return(
         <View style={{flex:1}}>
           <Text style={[styles.text, {fontSize: 25, paddingBottom: 10}]}>Because you favorited {this.state.drinkName1}!</Text>
@@ -302,6 +327,7 @@ class HomeScreen extends Component {
   }
 
   refresh = async () => {
+    console.log('refresh() called')
     this.setState({refreshing: true})
 
     await this.callAPIRandomRecs('new_things');
@@ -320,12 +346,10 @@ class HomeScreen extends Component {
               onRefresh={this.refresh}
             />
           }
-        
         >
           <View style={{flex:1}}>
             {this.random_new_items_component()}
             {this.recs_component()}
-
           </View>
         </ScrollView>
       );

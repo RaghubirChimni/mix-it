@@ -1,5 +1,3 @@
 // TO DO:
 // 1. Home Screen
-    // 1. API Calls
-    // 2. Horizontal FlatLists
-    // 3. Formatting
+    // 1. fix the recommendations on start, seems like called 2x thus duplicates
