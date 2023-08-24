@@ -25,9 +25,9 @@ const App = () => {
             component={SettingsScreen} 
             options={() => ({
               headerStyle: {
-                backgroundColor: 'darkred', // Set your desired header background color
+                backgroundColor: '#ffffff', // Set your desired header background color
               },
-              headerTintColor: 'red', // Set the color of the header text and buttons
+              headerTintColor: 'black', // Set the color of the header text and buttons
               headerTitle: () => {
                 return (
                   <Text style={{ fontSize: 20, color: 'black', fontFamily: 'Cochin' }}>
@@ -42,9 +42,9 @@ const App = () => {
             component={ItemScreen} 
             options={({ route }) => ({
               headerStyle: {
-                backgroundColor: 'darkred', // Set your desired header background color
+                backgroundColor: '#ffffff', // Set your desired header background color
               },
-              headerTintColor: 'red', // Set the color of the header text and buttons
+              headerTintColor: 'black', // Set the color of the header text and buttons
               headerTitle: () => {
                 const { itemToDisplay } = route.params;
                 return (
