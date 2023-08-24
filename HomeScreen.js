@@ -12,7 +12,9 @@ class HomeScreen extends Component {
       favorites: [], 
       new_things: [], 
       new_things_if_no_favorites: [],
+      new_things_if_no_favorites2: [],
       recommendations_based_on_favorites: [],
+      recommendations_based_on_favorites2: [],
       anyRecs: false, 
       drinkName1: '',
       drinkName2: '',
@@ -117,7 +119,9 @@ class HomeScreen extends Component {
       console.log('random recs')
       endpoint += 'random.php'
       this.setState({new_things_if_no_favorites: []})
+      this.setState({new_things_if_no_favorites2: []})
       await this.callAPIRandomRecs('new_things_if_no_favorites')
+      await this.callAPIRandomRecs('new_things_if_no_favorites2')
           // return component afterwards
     }
     else{ // give recs based on type of alc
@@ -139,12 +143,40 @@ class HomeScreen extends Component {
       });
 
       // endpoint search by ingredient: www.thecocktaildb.com/api/json/v1/1/filter.php?i=Gin
-      endpoint += "filter.php?i=" + ingredient
       // then callAPI() with endpoint and recommendations_based_on_favorites as arguments
       this.setState({recommendations_based_on_favorites: []})
       this.setState({drinkName1: drinkName})
-      await this.callAPIPersonalRecs(endpoint, 'recommendations_based_on_favorites', drinkID);
-        // return component afterwards
+      await this.callAPIPersonalRecs(endpoint + 'filter.php?i=' + ingredient, 'recommendations_based_on_favorites', drinkID);
+      // return component afterwards
+
+      // next favorite chosen
+      if (this.state.favorites.length > 1){
+        console.log("choosing next favorite")
+        let nextChosen = Math.floor(Math.random()*this.state.favorites.length);
+        while(nextChosen == favoriteChosen){
+          nextChosen = Math.floor(Math.random()*this.state.favorites.length);
+        }
+        console.log('chosen')
+        let drinkID2 = this.state.favorites[nextChosen];
+        let ingredient1 = ''
+        let drinkName2 = ''
+        await fetch(endpoint + 'lookup.php?i=' + drinkID2)
+        .then((response) => response.json())
+        .then((data) => {
+          ingredient1 = data['drinks'][0]['strIngredient1']
+          drinkName2 = data['drinks'][0]['strDrink']
+  
+          console.log("ingrdient used to recommend: " + ingredient)
+        }).catch(error => {
+          console.log(error)
+        });
+        let endpoint2 = "https://www.thecocktaildb.com/api/json/v1/1/filter.php?i=" + ingredient1;
+
+        this.setState({recommendations_based_on_favorites2: []})
+        this.setState({drinkName2: drinkName2})
+        await this.callAPIPersonalRecs(endpoint2, 'recommendations_based_on_favorites2', drinkID2);
+
+      }
     }
   }
 
@@ -232,7 +264,7 @@ class HomeScreen extends Component {
       .then((data) => {
         s = data['drinks'][0]
         // look at this line
-        if(!this.state.favorites.includes(s['idDrink']) && !this.idDrinkInside(s['idDrink'], 'new_things') && !this.idDrinkInside(s['idDrink'], 'new_things_if_no_favorites')){
+        if(!this.state.favorites.includes(s['idDrink']) && !this.idDrinkInside(s['idDrink'], 'new_things') && !this.idDrinkInside(s['idDrink'], 'new_things_if_no_favorites') && !this.idDrinkInside(s['idDrink'], 'new_things_if_no_favorites2')){
 
           let drinkResult = {
             "idDrink": s["idDrink"], 
@@ -311,18 +343,43 @@ class HomeScreen extends Component {
     else{
       // return component afterwards
       // console.log('this.state.favorites.length != 0)')
-      return(
-        <View style={{flex:1}}>
-          <Text style={[styles.text, {fontSize: 25, paddingBottom: 10}]}>Because you favorited {this.state.drinkName1}!</Text>
-          <FlatList 
-            data={this.state.recommendations_based_on_favorites}
-            renderItem={this.Item}
-            keyExtractor={item => item.idDrink}
-            horizontal={true}
-            showsHorizontalScrollIndicator={false}
-            />
-        </View>
-      );
+      if(this.state.favorites.length == 1){
+        return(
+          <View style={{flex:1}}>
+            <Text style={[styles.text, {fontSize: 25, paddingBottom: 10}]}>Because you favorited {this.state.drinkName1}!</Text>
+            <FlatList 
+              data={this.state.recommendations_based_on_favorites}
+              renderItem={this.Item}
+              keyExtractor={item => item.idDrink}
+              horizontal={true}
+              showsHorizontalScrollIndicator={false}
+              />
+          </View>
+        );
+      }
+      else{
+        return(
+          <View style={{flex:1}}>
+            <Text style={[styles.text, {fontSize: 25, paddingBottom: 10}]}>Because you favorited {this.state.drinkName1}!</Text>
+            <FlatList 
+              data={this.state.recommendations_based_on_favorites}
+              renderItem={this.Item}
+              keyExtractor={item => item.idDrink}
+              horizontal={true}
+              showsHorizontalScrollIndicator={false}
+              />
+          <Text style={[styles.text, {fontSize: 25, paddingBottom: 10}]}>Because you favorited {this.state.drinkName2}!</Text>
+            <FlatList 
+              data={this.state.recommendations_based_on_favorites2}
+              renderItem={this.Item}
+              keyExtractor={item => item.idDrink}
+              horizontal={true}
+              showsHorizontalScrollIndicator={false}
+              />
+          </View>
+        );
+      }
+
     }
   }
 
