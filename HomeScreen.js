@@ -51,6 +51,9 @@ class HomeScreen extends Component {
         console.log('called recs_based_on_favs')
         await this.recs_based_on_favs();
       }
+      else if(this.state.on_start){
+        await this.recs_based_on_favs();
+      }
     } catch (error) {
       console.log('Error fetching favorites:', error);
     }

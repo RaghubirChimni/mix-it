@@ -126,8 +126,8 @@ updateFavorites = async () => {
       console.log("returning flatlist")
       // console.log(this.state.resultsToDisplay)
       return(
-        <View style={{paddingTop: 30}}>
-          <Text style={styles.text}>Favorites.</Text>
+        <View>
+          <Text style={[styles.text, {paddingTop: 70, paddingBottom: 15}]}>Favorites.</Text>
           <FlatList
             data={this.state.resultsToDisplay}
             renderItem={this.Item}
@@ -139,8 +139,8 @@ updateFavorites = async () => {
     else{
       console.log("no results")
       return(
-        <View style={{paddingTop: 30}}>
-          <Text style={styles.text}>Try Something New!</Text>
+        <View>
+          <Text style={[styles.text, {paddingTop: 70, paddingBottom: 20}]}>Try Something New!</Text>
         </View>
       );
     }
