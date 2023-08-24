@@ -2,7 +2,7 @@ import React, { Component, useEffect } from 'react';
 import { View, Text, Image, FlatList, StyleSheet, TouchableOpacity} from 'react-native';
 import { styles } from './Styles.js';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { receiveFavorites, handleFavoritesButton } from './Utils.js';
+import { receiveFavorites, handleFavoritesButton, arraysAreEqual } from './Utils.js';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import { useIsFocused } from '@react-navigation/native';
 
@@ -37,15 +37,18 @@ onScreenFocus = async () => {
   await this.updateFavorites();
   }
 
-  updateFavorites = async () => {
+updateFavorites = async () => {
     try {
-      const favorites = await receiveFavorites();
-      this.setState({ favorites }, () => {
-        this.getFavoritesInfo();
-      });
-    } catch (error) {
-      console.log('Error fetching favorites:', error);
+      const newFavorites = await receiveFavorites();
+      const prevFavorites = this.state.favorites;
+      if (!arraysAreEqual(prevFavorites, newFavorites)) { // Compare arrays directly
+        this.setState({ favorites: newFavorites });
+        await this.getFavoritesInfo();
+      }
+    } catch(error){
+      console.log(error)
     }
+
   };
 
 
@@ -123,7 +126,7 @@ onScreenFocus = async () => {
       console.log("returning flatlist")
       // console.log(this.state.resultsToDisplay)
       return(
-        <View style={{paddingTop: 20}}>
+        <View style={{paddingTop: 30}}>
           <Text style={styles.text}>Favorites.</Text>
           <FlatList
             data={this.state.resultsToDisplay}
@@ -136,7 +139,7 @@ onScreenFocus = async () => {
     else{
       console.log("no results")
       return(
-        <View style={{paddingTop: 20}}>
+        <View style={{paddingTop: 30}}>
           <Text style={styles.text}>Try Something New!</Text>
         </View>
       );

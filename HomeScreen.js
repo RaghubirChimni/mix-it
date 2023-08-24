@@ -2,7 +2,7 @@ import React, { useEffect, useState, Component } from 'react';
 import { View, Pressable, Text, TouchableOpacity, FlatList, Image, ScrollView, RefreshControl} from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import { styles } from './Styles.js';
-import { receiveFavorites, handleFavoritesButton} from './Utils.js';
+import { receiveFavorites, handleFavoritesButton, arraysAreEqual } from './Utils.js';
 
 
 class HomeScreen extends Component {
@@ -19,7 +19,6 @@ class HomeScreen extends Component {
       drinkName1: '',
       drinkName2: '',
       refreshing: false, 
-      called_recs_based_on_favs: false,
       on_start: true,
     }
   }
@@ -47,35 +46,15 @@ class HomeScreen extends Component {
       console.log("updated favorites");
       const prevFavorites = this.state.favorites;
       const newFavorites = await receiveFavorites();
-      if (!this.arraysAreEqual(prevFavorites, newFavorites)) { // Compare arrays directly
+      if (!arraysAreEqual(prevFavorites, newFavorites)) { // Compare arrays directly
         this.setState({ favorites: newFavorites });
         console.log('called recs_based_on_favs')
         await this.recs_based_on_favs();
-        this.setState({called_recs_based_on_favs: true});
-      }
-      else if(!this.called_recs_based_on_favs){
-        console.log('called recs_based_on_favs')
-        await this.recs_based_on_favs();
-        this.setState({called_recs_based_on_favs: true});
       }
     } catch (error) {
       console.log('Error fetching favorites:', error);
     }
   };
-
-  arraysAreEqual = (arr1, arr2) => {
-    if (arr1.length !== arr2.length) {
-      return false;
-    }
-  
-    for (let i = 0; i < arr1.length; i++) {
-      if (arr1[i] !== arr2[i]) {
-        return false;
-      }
-    }
-  
-    return true;
-  }
   
 
   Item = ({item}) =>  (
@@ -110,9 +89,6 @@ class HomeScreen extends Component {
   recs_based_on_favs = async () => {
     console.log('recs_based_on_favs()')
 
-    if(this.state.called_recs_based_on_favs){
-      console.log('already caled')
-    }
     let endpoint = 'https://www.thecocktaildb.com/api/json/v1/1/'
     if(this.state.favorites.length == 0){
       // give random recs
@@ -307,7 +283,7 @@ class HomeScreen extends Component {
   random_new_items_component = () => {
     return(
       <View style={{flex:1}}>
-        <Text style={[styles.text, {fontSize: 25, paddingBottom: 10}]}>Try something new!</Text>
+        <Text style={[styles.text, {fontSize: 25, paddingBottom: 15}]}>Try something new!</Text>
         <FlatList 
           data={this.state.new_things}
           renderItem={this.Item}
@@ -327,11 +303,19 @@ class HomeScreen extends Component {
       // console.log(this.state.new_things_if_no_favorites)
       return(
         <View style={{flex:1}}>
-          <Text style={[styles.text, {fontSize: 25, paddingBottom: 10}]}>
+          <Text style={[styles.text, {fontSize: 25, paddingBottom: 15}]}>
             Some Exciting Drinks!
           </Text>
           <FlatList 
             data={this.state.new_things_if_no_favorites}
+            renderItem={this.Item}
+            keyExtractor={item => item.idDrink}
+            horizontal={true}
+            showsHorizontalScrollIndicator={false}
+            style = {{paddingBottom: 20}}
+          />
+          <FlatList 
+            data={this.state.new_things_if_no_favorites2}
             renderItem={this.Item}
             keyExtractor={item => item.idDrink}
             horizontal={true}
@@ -346,7 +330,7 @@ class HomeScreen extends Component {
       if(this.state.favorites.length == 1){
         return(
           <View style={{flex:1}}>
-            <Text style={[styles.text, {fontSize: 25, paddingBottom: 10}]}>Because you favorited {this.state.drinkName1}!</Text>
+            <Text style={[styles.text, {fontSize: 25, paddingBottom: 15}]}>Because you favorited {this.state.drinkName1}!</Text>
             <FlatList 
               data={this.state.recommendations_based_on_favorites}
               renderItem={this.Item}
@@ -360,7 +344,7 @@ class HomeScreen extends Component {
       else{
         return(
           <View style={{flex:1}}>
-            <Text style={[styles.text, {fontSize: 25, paddingBottom: 10}]}>Because you favorited {this.state.drinkName1}!</Text>
+            <Text style={[styles.text, {fontSize: 25, paddingBottom: 15}]}>Because you favorited {this.state.drinkName1}!</Text>
             <FlatList 
               data={this.state.recommendations_based_on_favorites}
               renderItem={this.Item}
@@ -368,7 +352,7 @@ class HomeScreen extends Component {
               horizontal={true}
               showsHorizontalScrollIndicator={false}
               />
-          <Text style={[styles.text, {fontSize: 25, paddingBottom: 10}]}>Because you favorited {this.state.drinkName2}!</Text>
+          <Text style={[styles.text, {fontSize: 25, paddingBottom: 15}]}>Because you favorited {this.state.drinkName2}!</Text>
             <FlatList 
               data={this.state.recommendations_based_on_favorites2}
               renderItem={this.Item}
