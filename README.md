@@ -14,7 +14,19 @@ Unleash your inner mixologist with **Mix It!**, the ultimate cocktail app design
 
 Whether you're looking to impress guests at your next soirée or simply unwind with a delightful drink after a long day, Mix It! has you covered. Elevate your home bartending game and create memorable moments with friends and family.
 
+## Built With
+
+Mix It! is proudly built using **React Native** and **Expo Go**, combining the power of JavaScript and native development for a seamless user experience.
+
+## Getting Started
+
+To run the app locally, follow these steps:
+
+1. Clone this repository.
+2. Install dependencies by running `npm install`.
+3. Start the Expo development server with `npx expo start`.
+
+
 ## Try Mix-It!
 
 Get started with Mix It! and embark on a flavorful journey through the world of cocktails. Cheers to endless possibilities!
-Start by cloning this repo, and running 'npx expo start'.
