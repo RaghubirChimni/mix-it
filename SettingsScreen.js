@@ -57,7 +57,7 @@ class SettingsScreen extends Component {
               style = {styles.checkbox}
               checked={this.state.drink}
               onPress={this.handleDrinkChange}
-              checkedColor="darkred" // Customize the checked color
+              checkedColor="#accbb4" // Customize the checked color
               uncheckedColor="black" // Customize the unchecked color
             />
             <Text style={[styles.text, {fontSize: 25}, {paddingTop: 0}]}>Drink</Text>
@@ -69,7 +69,7 @@ class SettingsScreen extends Component {
                 style = {styles.checkbox}
                 checked={this.state.ingredient}
                 onPress={this.handleIngredientChange}
-                checkedColor="darkred" // Customize the checked color
+                checkedColor="#accbb4" // Customize the checked color
                 uncheckedColor="black" // Customize the unchecked color
               />
             <Text style={[styles.text, {fontSize: 25}, {paddingTop: 0}]}>Ingredient</Text>

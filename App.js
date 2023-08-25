@@ -25,7 +25,7 @@ const App = () => {
             component={SettingsScreen} 
             options={() => ({
               headerStyle: {
-                backgroundColor: '#ffffff', // Set your desired header background color
+                backgroundColor: '#accbb4', // Set your desired header background color
               },
               headerTintColor: 'black', // Set the color of the header text and buttons
               headerTitle: () => {
@@ -42,7 +42,7 @@ const App = () => {
             component={ItemScreen} 
             options={({ route }) => ({
               headerStyle: {
-                backgroundColor: '#ffffff', // Set your desired header background color
+                backgroundColor: '#accbb4', // Set your desired header background color
               },
               headerTintColor: 'black', // Set the color of the header text and buttons
               headerTitle: () => {
@@ -77,7 +77,7 @@ function TabStackScreen() {
           return <Icon name={iconName} size={size} color={color} />;
         },
       
-      tabBarActiveTintColor: 'darkred', // Change the active tab color
+      tabBarActiveTintColor: '#accbb4', // Change the active tab color
       tabBarInactiveTintColor: 'black', // Change the inactive tab color
       tabBarStyle: { display: 'flex' }, // Change other tab bar styles if needed
       })}
