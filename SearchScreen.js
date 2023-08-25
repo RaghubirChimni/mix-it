@@ -1,9 +1,8 @@
-import React, { useEffect, useState, Component } from 'react';
-import { View, Pressable, Text, TouchableOpacity, FlatList, StyleSheet, Image} from 'react-native';
+import React, { Component } from 'react';
+import { View, Text, TouchableOpacity, FlatList, Image} from 'react-native';
 import { styles } from './Styles.js';
 import { SearchBar, Card } from 'react-native-elements';
 import Icon from 'react-native-vector-icons/FontAwesome';
-import AsyncStorage from '@react-native-async-storage/async-storage';
 import { receiveIngredientSetting, receiveDrinkSetting, receiveFavorites, handleFavoritesButton} from './Utils.js';
 
 class SearchScreen extends Component {

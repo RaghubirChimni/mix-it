@@ -1,12 +1,8 @@
 import React, { Component, useEffect } from 'react';
 import { View, Text, Image, FlatList, StyleSheet, TouchableOpacity, ImageBackground} from 'react-native';
 import { styles } from './Styles.js';
-import AsyncStorage from '@react-native-async-storage/async-storage';
 import { receiveFavorites, handleFavoritesButton, arraysAreEqual } from './Utils.js';
 import Icon from 'react-native-vector-icons/FontAwesome';
-import { useIsFocused } from '@react-navigation/native';
-
-
 
 class FavoritesScreen extends Component{
   constructor(props){

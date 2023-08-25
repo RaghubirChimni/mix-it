@@ -1,5 +1,5 @@
-import React, { useEffect, useState, Component } from 'react';
-import { View, Pressable, ImageBackground, Text, TouchableOpacity, FlatList, Image, ScrollView, RefreshControl} from 'react-native';
+import React, { Component } from 'react';
+import { View, ImageBackground, Text, TouchableOpacity, FlatList, Image, ScrollView, RefreshControl } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import { styles } from './Styles.js';
 import { receiveFavorites, handleFavoritesButton, arraysAreEqual } from './Utils.js';

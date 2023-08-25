@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react';
 import { View, Text, Image } from 'react-native';
-import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { styles } from './Styles.js';
 
 const SplashScreen = ({navigation}) => {

@@ -1,5 +1,5 @@
-import React, { useEffect, useState, Component } from 'react';
-import { View, Text, Image} from 'react-native';
+import React, { Component } from 'react';
+import { View, Text, ImageBackground} from 'react-native';
 import { styles } from './Styles.js';
 import { CheckBox } from 'react-native-elements';
 import AsyncStorage from '@react-native-async-storage/async-storage';
@@ -74,6 +74,25 @@ class SettingsScreen extends Component {
               />
             <Text style={[styles.text, {fontSize: 25}, {paddingTop: 0}]}>Ingredient</Text>
           </View>
+          <ImageBackground
+            source={require('./homepage.png')}
+            style={{
+              position: 'absolute',
+              bottom: 0,
+              width: '100%',
+              height: '90%',
+              alignItems: 'center',
+              justifyContent: 'flex-end',
+              marginBottom: -150
+
+            }}
+            imageStyle={{
+              resizeMode: "cover", 
+              alignSelf: "flex-end", 
+              top: undefined
+            }}
+          >
+          </ImageBackground>
         </View>
       );
   };
