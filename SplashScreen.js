@@ -16,8 +16,13 @@ const SplashScreen = ({navigation}) => {
   return (
     <View style={[styles.container,]}>
       <Image
-        source={require('./mix-it_logo2_update.png')}
-        style={{ width: 500, height: 500, resizeMode: 'contain' }}
+        source={require('./mix-it.png')}
+        style={{    flex: 1,
+          width: '100%', // Adjust as needed
+          height: '100%', // Adjust as needed
+          justifyContent: 'center', // Adjust content vertically if needed
+          alignItems: 'center', // Adjust content horizontally if needed
+        }}
       />
     </View>
 );

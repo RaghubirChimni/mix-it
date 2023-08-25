@@ -1,5 +1,5 @@
 import React, { Component, useEffect } from 'react';
-import { View, Text, Image, FlatList, StyleSheet, TouchableOpacity} from 'react-native';
+import { View, Text, Image, FlatList, StyleSheet, TouchableOpacity, ImageBackground} from 'react-native';
 import { styles } from './Styles.js';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { receiveFavorites, handleFavoritesButton, arraysAreEqual } from './Utils.js';
@@ -150,7 +150,27 @@ updateFavorites = async () => {
   render(){
     return (
       <View style={styles.itemPageContainer}>
+         <ImageBackground
+            source={require('./homepage.png')}
+            style={{
+              position: 'absolute',
+              bottom: -10,
+              width: '100%',
+              height: '90%',
+              alignItems: 'center',
+              justifyContent: 'flex-end',
+              marginBottom: -200
+
+            }}
+            imageStyle={{
+              resizeMode: "cover", 
+              alignSelf: "flex-end", 
+              top: undefined
+            }}
+          >
+          </ImageBackground>
         {this.results()}
+       
       </View>
     );
     }

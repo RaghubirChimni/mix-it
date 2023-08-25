@@ -1,5 +1,5 @@
 import React, { useEffect, useState, Component } from 'react';
-import { View, Pressable, Text, TouchableOpacity, FlatList, Image, ScrollView, RefreshControl} from 'react-native';
+import { View, Pressable, ImageBackground, Text, TouchableOpacity, FlatList, Image, ScrollView, RefreshControl} from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import { styles } from './Styles.js';
 import { receiveFavorites, handleFavoritesButton, arraysAreEqual } from './Utils.js';
@@ -382,22 +382,87 @@ class HomeScreen extends Component {
 
     render(){
       return (
-        <ScrollView
-          style={{ marginTop: 50, flex:1 }}
-          refreshControl={
-            <RefreshControl 
-              refreshing={this.state.refreshing}
-              onRefresh={this.refresh}
-            />
-          }
-        >
-          <View style={{flex:1}}>
-            {this.random_new_items_component()}
-            {this.recs_component()}
-          </View>
-        </ScrollView>
+        <View style={{ flex: 1 }}>
+          <ImageBackground
+            source={require('./homepage.png')}
+            style={{
+              position: 'absolute',
+              bottom: -10,
+              width: '100%',
+              height: '90%',
+              alignItems: 'center',
+              justifyContent: 'flex-end',
+              marginBottom: -200
+
+            }}
+            imageStyle={{
+              resizeMode: "cover", 
+              alignSelf: "flex-end", 
+              top: undefined
+            }}
+          >
+          </ImageBackground>
+
+          {/* <ImageBackground
+            source={require('./back.png')}
+            style={{
+              position: 'absolute',
+              bottom: -70,
+              left: 0,
+              width: '100%',
+              height: '80%',
+              justifyContent: 'flex-end',
+              paddingVertical: 30, 
+              marginLeft: 90
+            }}
+            imageStyle={{
+              resizeMode: "cover", 
+              alignSelf: "flex-end", 
+              top: undefined
+            }}
+          >
+          </ImageBackground>
+
+
+          <ImageBackground
+            source={require('./back.png')}
+            style={{
+              position: 'absolute',
+              bottom: -97,
+              right: 0,
+              width: '100%',
+              height: '80%',
+              justifyContent: 'flex-end',
+              paddingVertical: 30, 
+              marginRight: 90
+            }}
+            imageStyle={{
+              resizeMode: "cover", 
+              alignSelf: "flex-end", 
+              top: undefined, 
+            }}
+          >
+          </ImageBackground> */}
+
+
+          <ScrollView
+            style={{ flex: 1 }}
+            refreshControl={
+              <RefreshControl 
+                refreshing={this.state.refreshing}
+                onRefresh={this.refresh}
+              />
+            }
+          >
+            <View style={{ flex: 1, marginTop: 50 }}>
+              {this.random_new_items_component()}
+              {this.recs_component()}
+            </View>
+          </ScrollView>
+        </View>
+
       );
-      }
+    }
   };
   
   export default HomeScreen;
