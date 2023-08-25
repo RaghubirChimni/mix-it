@@ -17,3 +17,4 @@ Whether you're looking to impress guests at your next soirée or simply unwind w
 ## Try Mix-It!
 
 Get started with Mix It! and embark on a flavorful journey through the world of cocktails. Cheers to endless possibilities!
+Start by cloning this repo, and running 'npx expo start'.
